@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Routes from './app/routes';
 
-const App = () => <div>Graphy</div>;
-
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<Routes />, document.getElementById('app'));
