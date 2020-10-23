@@ -11,8 +11,8 @@ const workflowStyles = css`
 `;
 
 const headerStyles = css`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 100px;
   width: 100%;
   .header__heading {
     font-size: 20px;

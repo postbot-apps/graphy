@@ -5,6 +5,7 @@ import { SideBar } from '../../shared/components/sidebar';
 
 const containerStyles = css`
   margin-left: 64px;
+  padding: 0px 20px;
 `;
 
 const mainStyles = css`
