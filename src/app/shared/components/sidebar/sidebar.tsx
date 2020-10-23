@@ -1,6 +1,7 @@
 /**@jsx jsx */
+import { useAuth0 } from '@auth0/auth0-react';
 import { jsx, css } from '@emotion/core';
-import { IconButton, HomeIcon, SearchIcon, Avatar } from 'evergreen-ui';
+import { IconButton, HomeIcon, SearchIcon, Avatar, LogOutIcon } from 'evergreen-ui';
 import { FunctionComponent } from 'react';
 import Logo from '../../../../assets/images/logo.png';
 
@@ -49,29 +50,41 @@ const iconButtonStyles = css`
 interface SideBarProps {}
 
 export const SideBar: FunctionComponent<SideBarProps> = () => {
+  const { user, isAuthenticated } = useAuth0();
+  const { logout } = useAuth0();
+
   return (
-    <div css={sidebarStyles}>
-      <nav css={navbarStyles} role="navigation" aria-label="sidebar">
-        <div>
-          <img width={50} src={Logo} alt="logo" />
-          <div css={navIconStyles}>
-            <IconButton
-              css={iconButtonStyles}
-              appearance="minimal"
-              color="white"
-              height={50}
-              icon={HomeIcon}
-            />
-            <IconButton
-              css={iconButtonStyles}
-              appearance="minimal"
-              height={50}
-              icon={SearchIcon}
-            />
+    isAuthenticated && (
+      <div css={sidebarStyles}>
+        <nav css={navbarStyles} role="navigation" aria-label="sidebar">
+          <div>
+            <img width={50} src={Logo} alt="logo" />
+            <div css={navIconStyles}>
+              <IconButton
+                css={iconButtonStyles}
+                appearance="minimal"
+                color="white"
+                height={50}
+                icon={HomeIcon}
+              />
+              <IconButton
+                css={iconButtonStyles}
+                appearance="minimal"
+                height={50}
+                icon={SearchIcon}
+              />
+            </div>
           </div>
-        </div>
-        <Avatar name="Bill Gates" size={40} />
-      </nav>
-    </div>
+          <Avatar name={user.name} size={40} />
+          <IconButton
+            css={iconButtonStyles}
+            appearance="minimal"
+            height={50}
+            icon={LogOutIcon}
+            onClick={() => logout({ returnTo: window.location.origin })}
+          />
+        </nav>
+      </div>
+    )
   );
 };

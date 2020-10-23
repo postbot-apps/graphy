@@ -1,4 +1,5 @@
 /**@jsx jsx */
+import { useAuth0 } from '@auth0/auth0-react';
 import { Global, css, jsx } from '@emotion/core';
 import { FunctionComponent, ReactNode } from 'react';
 
@@ -28,6 +29,12 @@ interface MiddlewareProps {
 const Middleware: FunctionComponent<MiddlewareProps> = ({
   children,
 }: MiddlewareProps) => {
+  const { isLoading } = useAuth0();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <Global styles={globalStyles} />
