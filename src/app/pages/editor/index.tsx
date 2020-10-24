@@ -1,10 +1,11 @@
 /**@jsx jsx */
 import { useQuery } from '@apollo/client';
-import { jsx } from '@emotion/core';
+import { css, jsx } from '@emotion/core';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { Loading } from '../../shared/components/loading';
 import { Navbar } from '../../shared/components/navbar';
 import { GET_WORKFLOW } from './query';
+import ActionBar from './actionbar';
 
 interface EditorProps {
   match: {
@@ -13,6 +14,15 @@ interface EditorProps {
     };
   };
 }
+
+const editorStyles = css`
+  display: flex;
+  .editor__main {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAH0lEQVQoU2NkYGD4z8DAwMhAABBUANM/qhBvSBIdPACgdAELiyknowAAAABJRU5ErkJggg==)
+      repeat;
+    width: 100%;
+  }
+`;
 
 const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
   const [workflow, setWorkflow] = useState(null);
@@ -59,6 +69,10 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
         onSave={() => {}}
         onDiscard={() => {}}
       />
+      <div css={editorStyles}>
+        <ActionBar />
+        <div className="editor__main"></div>
+      </div>
     </div>
   );
 };
