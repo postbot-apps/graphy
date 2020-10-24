@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client';
 import { jsx } from '@emotion/core';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { Loading } from '../../shared/components/loading';
+import { Navbar } from '../../shared/components/navbar';
 import { GET_WORKFLOW } from './query';
 
 interface EditorProps {
@@ -46,7 +47,20 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
     return <Loading />;
   }
 
-  return workflow ? <div>{workflow.title}</div> : <div>nothing here</div>;
+  if (!workflow) {
+    return <div>nothing here</div>;
+  }
+
+  return (
+    <div>
+      <Navbar
+        title={workflow.title}
+        description={workflow.description}
+        onSave={() => {}}
+        onDiscard={() => {}}
+      />
+    </div>
+  );
 };
 
 export default Editor;
