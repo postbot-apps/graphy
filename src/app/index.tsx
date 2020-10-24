@@ -9,6 +9,7 @@ import {
 import Middleware from './middleware';
 import { createApolloClient } from './shared/utils/apolloConfig';
 import { ApolloProvider } from '@apollo/client';
+import { Loading } from './shared/components/loading';
 
 const Workflows = React.lazy(() => import('./pages/dashboard/workflows'));
 const HomePage = React.lazy(() => import('./pages/home'));
@@ -21,8 +22,6 @@ const routes = [
     private: true,
   },
 ];
-
-const Loading = () => <div style={{ textAlign: 'center' }}>Loading...</div>;
 
 const PrivateRoute = ({ component, ...args }: RouteProps) => (
   <Route

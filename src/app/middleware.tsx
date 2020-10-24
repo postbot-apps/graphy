@@ -2,6 +2,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Global, css, jsx } from '@emotion/core';
 import { FunctionComponent, ReactNode } from 'react';
+import { Loading } from './shared/components/loading';
 
 const globalStyles = css`
   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
@@ -32,7 +33,7 @@ const Middleware: FunctionComponent<MiddlewareProps> = ({
   const { isLoading } = useAuth0();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

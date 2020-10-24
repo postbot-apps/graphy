@@ -2,6 +2,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { css, jsx } from '@emotion/core';
 import { FunctionComponent, ReactNode } from 'react';
+import { Loading } from '../../shared/components/loading';
 import { SideBar } from '../../shared/components/sidebar';
 
 const containerStyles = css`
@@ -25,7 +26,7 @@ const Container: FunctionComponent<ContainerProps> = ({
   const { isLoading } = useAuth0();
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return <Loading />;
   }
 
   return (
