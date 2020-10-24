@@ -2,6 +2,7 @@
 import { css, jsx } from '@emotion/core';
 import { Card, ChatIcon, DatabaseIcon, DiagramTreeIcon } from 'evergreen-ui';
 import { FunctionComponent, ReactNode } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const workflowTypeMap: Record<string, ReactNode> = {
   Database: <DatabaseIcon size={24} />,
@@ -31,18 +32,23 @@ const iconHolderStyles = css`
 `;
 
 interface WorkflowCardProps {
+  id: string;
   title: string;
   type: string;
   description: string;
 }
 
 const WorkflowCard: FunctionComponent<WorkflowCardProps> = ({
+  id,
   title,
   type,
   description,
 }: WorkflowCardProps) => {
+  const history = useHistory();
+
   return (
     <Card
+      onClick={() => history.push(`/workflow/${id}`)}
       display="flex"
       flexDirection="column"
       minHeight={120}

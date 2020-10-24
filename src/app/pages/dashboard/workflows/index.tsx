@@ -74,6 +74,7 @@ const Workflows: FunctionComponent<WorkflowsProps> = () => {
           {workflowsData.map((data) => (
             <WorkflowCard
               key={data.id}
+              id={data.id}
               title={data.title}
               type={data.type}
               description={data.description}

@@ -12,12 +12,13 @@ import { ApolloProvider } from '@apollo/client';
 import { Loading } from './shared/components/loading';
 
 const Workflows = React.lazy(() => import('./pages/dashboard/workflows'));
+const Editor = React.lazy(() => import('./pages/editor'));
 const HomePage = React.lazy(() => import('./pages/home'));
 
 const routes = [
   {
-    path: '/workflows',
-    component: Workflows,
+    path: 'workflow/:id',
+    component: Editor,
     isExact: false,
     private: true,
   },
