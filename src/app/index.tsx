@@ -41,7 +41,7 @@ const App = () => {
       client={createApolloClient(isAuthenticated ? getIdTokenClaims : null)}
     >
       <Router>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading />}>
           <Switch>
             <Middleware>
               {routes.map((route) =>
