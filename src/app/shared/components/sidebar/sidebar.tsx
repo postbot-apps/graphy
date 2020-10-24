@@ -1,7 +1,7 @@
 /**@jsx jsx */
 import { useAuth0 } from '@auth0/auth0-react';
 import { jsx, css } from '@emotion/core';
-import { IconButton, HomeIcon, SearchIcon, Avatar, LogOutIcon } from 'evergreen-ui';
+import { IconButton, HomeIcon, SearchIcon, LogOutIcon } from 'evergreen-ui';
 import { FunctionComponent } from 'react';
 import Logo from '../../../../assets/images/logo.png';
 
@@ -50,7 +50,7 @@ const iconButtonStyles = css`
 interface SideBarProps {}
 
 export const SideBar: FunctionComponent<SideBarProps> = () => {
-  const { user, isAuthenticated } = useAuth0();
+  const { isAuthenticated } = useAuth0();
   const { logout } = useAuth0();
 
   return (
@@ -75,7 +75,6 @@ export const SideBar: FunctionComponent<SideBarProps> = () => {
               />
             </div>
           </div>
-          <Avatar name={user.name} size={40} />
           <IconButton
             css={iconButtonStyles}
             appearance="minimal"

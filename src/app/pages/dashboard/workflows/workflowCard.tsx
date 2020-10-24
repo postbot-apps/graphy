@@ -4,9 +4,9 @@ import { Card, ChatIcon, DatabaseIcon, DiagramTreeIcon } from 'evergreen-ui';
 import { FunctionComponent, ReactNode } from 'react';
 
 const workflowTypeMap: Record<string, ReactNode> = {
-  database: <DatabaseIcon size={24} />,
-  chat: <ChatIcon size={24} />,
-  diagram: <DiagramTreeIcon size={24} />,
+  Database: <DatabaseIcon size={24} />,
+  Chat: <ChatIcon size={24} />,
+  Diagram: <DiagramTreeIcon size={24} />,
 };
 
 const workflowContent = css`

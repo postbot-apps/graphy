@@ -7,6 +7,8 @@ import {
   Route,
 } from 'react-router-dom';
 import Middleware from './middleware';
+import { createApolloClient } from './shared/utils/apolloConfig';
+import { ApolloProvider } from '@apollo/client';
 
 const Workflows = React.lazy(() => import('./pages/dashboard/workflows'));
 const HomePage = React.lazy(() => import('./pages/home'));
@@ -33,39 +35,43 @@ const PrivateRoute = ({ component, ...args }: RouteProps) => (
 );
 
 const App = () => {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
   return (
-    <Router>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Switch>
-          <Middleware>
-            {routes.map((route) =>
-              route.private ? (
-                <PrivateRoute
-                  key={route.path}
-                  exact={route.isExact}
-                  path={`/${route.path}`}
-                  component={route.component}
-                />
-              ) : (
-                <Route
-                  key={route.path}
-                  exact={route.isExact}
-                  path={`/${route.path}`}
-                  component={route.component}
-                />
-              )
-            )}
-            <Route
-              exact={true}
-              path={'/'}
-              component={isAuthenticated ? Workflows : HomePage}
-            />
-          </Middleware>
-        </Switch>
-      </Suspense>
-    </Router>
+    <ApolloProvider
+      client={createApolloClient(isAuthenticated ? getIdTokenClaims : null)}
+    >
+      <Router>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            <Middleware>
+              {routes.map((route) =>
+                route.private ? (
+                  <PrivateRoute
+                    key={route.path}
+                    exact={route.isExact}
+                    path={`/${route.path}`}
+                    component={route.component}
+                  />
+                ) : (
+                  <Route
+                    key={route.path}
+                    exact={route.isExact}
+                    path={`/${route.path}`}
+                    component={route.component}
+                  />
+                )
+              )}
+              <Route
+                exact={true}
+                path={'/'}
+                component={isAuthenticated ? Workflows : HomePage}
+              />
+            </Middleware>
+          </Switch>
+        </Suspense>
+      </Router>
+    </ApolloProvider>
   );
 };
 

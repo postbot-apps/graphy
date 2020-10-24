@@ -1,9 +1,13 @@
 /**@jsx jsx */
+import { useQuery } from '@apollo/client';
+import { useAuth0 } from '@auth0/auth0-react';
 import { css, jsx } from '@emotion/core';
 import { Button } from 'evergreen-ui';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import Container from '../container';
-import WorkflowCard from './workflow-card';
+import { GET_WORKFLOWS } from './query';
+import WorkflowCard from './workflowCard';
+import WorkflowModal from './workflowModal';
 
 const workflowStyles = css`
   margin-top: 20px;
@@ -29,49 +33,45 @@ const workflowsContainer = css`
 
 interface WorkflowsProps {}
 
-const sampleData = [
-  {
-    id: 1,
-    title: 'Mongo DB',
-    type: 'database',
-    description: 'Mongo db flow',
-  },
-  {
-    id: 2,
-    title: 'Chat bot',
-    type: 'chat',
-    description: 'chat bot flow',
-  },
-  {
-    id: 3,
-    title: 'Diagram',
-    type: 'diagram',
-    description: 'Diagram flow',
-  },
-  {
-    id: 4,
-    title: 'Mysql DB',
-    type: 'database',
-    description: 'Mysql db flow',
-  },
-  {
-    id: 5,
-    title: 'Facebook bot',
-    type: 'chat',
-    description: 'facebook bot flow',
-  },
-];
-
 const Workflows: FunctionComponent<WorkflowsProps> = () => {
+  const [workflowsData, setWorkflowsData] = useState([]);
+  const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
+  const { user } = useAuth0();
+
+  const { loading, error, data } = useQuery(GET_WORKFLOWS, {
+    variables: {
+      email: user.email,
+    },
+  });
+
+  const getData = () => {
+    if (loading) {
+      return null;
+    }
+    if (error) {
+      console.error(`GET_WORKFLOWS error: ${error}`);
+      return `Error: ${error.message}`;
+    }
+    if (data && data.getUser) {
+      setWorkflowsData(data.getUser.workflows);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, [data, user]);
+
   return (
     <Container>
       <div css={workflowStyles}>
         <div css={headerStyles}>
           <h2 className="header__heading">Recent Workflows</h2>
-          <Button appearance="primary">Create New</Button>
+          <Button onClick={() => setShowCreateModal(true)} appearance="primary">
+            Create New
+          </Button>
         </div>
         <div css={workflowsContainer}>
-          {sampleData.map((data) => (
+          {workflowsData.map((data) => (
             <WorkflowCard
               key={data.id}
               title={data.title}
@@ -80,6 +80,10 @@ const Workflows: FunctionComponent<WorkflowsProps> = () => {
             />
           ))}
         </div>
+        <WorkflowModal
+          isShown={showCreateModal}
+          onClose={() => setShowCreateModal(false)}
+        />
       </div>
     </Container>
   );
