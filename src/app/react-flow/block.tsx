@@ -25,6 +25,8 @@ export const BlockComponent: React.FC<BlockProps> = ({
   parent,
   changeParent,
   Template,
+  setSelectedBlock,
+  text,
 }: BlockProps) => {
   const [hideDragArea, setHideDragArea] = useState(false);
   // @ts-ignore
@@ -60,9 +62,10 @@ export const BlockComponent: React.FC<BlockProps> = ({
         ref={drag}
         className={`block ${isOver ? 'show-indicator' : ''}`}
         style={{ left: x, top: y }}
+        onClick={() => setSelectedBlock(id)}
       >
         {name}
-        <Template />
+        <Template text={text} />
         {!hideDragArea && (
           <div className="drag-area-container">
             {/* @ts-ignore */}

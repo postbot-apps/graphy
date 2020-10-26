@@ -95,6 +95,7 @@ const flowyStyles = css`
 
 export const ReactFlowy: React.FC = () => {
   const [blocks, setBlocks] = useState<Block[]>([]);
+  const [selectedBlock, setSelectedBlock] = useState<number>(-1);
   // @ts-ignore
   const [firstBlockPos, setFirstBlockPos] = useState<Position>({});
 
@@ -122,6 +123,18 @@ export const ReactFlowy: React.FC = () => {
     ]);
   };
 
+  const setText = (value: string) => {
+    setBlocks(
+      blocks.map((b) => {
+        if (b.id === selectedBlock) {
+          return { ...b, text: value };
+        }
+        return b;
+      })
+    );
+  };
+
+  console.log(blocks);
   return (
     <DndProvider backend={HTML5Backend}>
       <div css={flowyStyles}>
@@ -136,6 +149,7 @@ export const ReactFlowy: React.FC = () => {
           setFirstBlockPosition={setFirstBlockPosition}
           //@ts-ignore
           firstBlockPos={firstBlockPos}
+          setSelectedBlock={setSelectedBlock}
         />
         <div className="blocks">
           <DragBlock name="block-1" type="input" />
@@ -144,6 +158,15 @@ export const ReactFlowy: React.FC = () => {
           <DragBlock name="block-4" type="email" />
         </div>
       </div>
+      {selectedBlock !== -1 && (
+        <div className="side-sheet">
+          <input
+            type="text"
+            placeholder="Text to show"
+            onChange={(e) => setText(e.target.value)}
+          />
+        </div>
+      )}
     </DndProvider>
   );
 };

@@ -29,6 +29,7 @@ export const Canvas: React.FC<CanvasProps> = ({
   templates,
   setFirstBlockPosition,
   firstBlockPos,
+  setSelectedBlock,
 }: CanvasProps) => {
   // @ts-ignore
   const [ref] = useLocalDrop(
@@ -63,6 +64,7 @@ export const Canvas: React.FC<CanvasProps> = ({
       {blocksWithPos.map((b, i) => (
         <React.Fragment key={i}>
           <BlockComponent
+            setSelectedBlock={setSelectedBlock}
             {...b}
             addNewBlock={addNewBlock}
             changeParent={changeParent}

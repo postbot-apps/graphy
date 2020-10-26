@@ -12,9 +12,9 @@ export const BlockTemplate: React.FC<BlockTemplateProps> = ({
 };
 
 export const InputBlockTemplate: React.FC<BlockTemplateProps> = ({
-  type,
+  text,
 }: BlockTemplateProps) => {
-  return <div>Input Block</div>;
+  return <div>Input Block {text}</div>;
 };
 
 export default {
