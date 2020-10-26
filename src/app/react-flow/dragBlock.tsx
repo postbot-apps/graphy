@@ -3,11 +3,15 @@ import { useDrag } from 'react-dnd';
 
 interface DragBlockProps {
   name: string;
+  type: string;
 }
 
-export const DragBlock: React.FC<DragBlockProps> = ({ name }: DragBlockProps) => {
+export const DragBlock: React.FC<DragBlockProps> = ({
+  name,
+  type,
+}: DragBlockProps) => {
   const [, drag] = useDrag({
-    item: { name, type: 'block' },
+    item: { name, type: 'block', blockType: type },
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),

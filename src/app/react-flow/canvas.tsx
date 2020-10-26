@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Arrow from './arrow';
 import BlockComponent from './block';
 import { useLocalDrop } from './hooks';
 import { Block, Position } from './types';
-import { computeAllBlockPos, getAllChildrenBlocks } from './utils';
+import { computeAllBlockPos } from './utils';
 
 interface CanvasProps {
   // eslint-disable-next-line no-unused-vars
@@ -14,6 +14,10 @@ interface CanvasProps {
   padding: Position;
   // eslint-disable-next-line no-unused-vars
   changeParent: (id: number, parent: number) => void;
+  templates: any;
+  // eslint-disable-next-line no-unused-vars
+  setFirstBlockPosition: (position: Position) => void;
+  firstBlockPos: Position;
 }
 
 export const Canvas: React.FC<CanvasProps> = ({
@@ -22,22 +26,37 @@ export const Canvas: React.FC<CanvasProps> = ({
   addFirstBlock,
   padding,
   changeParent,
+  templates,
+  setFirstBlockPosition,
+  firstBlockPos,
 }: CanvasProps) => {
-  const [firstBlockPos, setFirstBlockPos] = useState<Position>({ x: 0, y: 0 });
-  const [ref] = useLocalDrop((pos: Position, item: { name: string }) => {
-    if (blocks.length === 0) {
-      setFirstBlockPos(pos);
-      addFirstBlock({
-        parent: -1,
-        id: 0,
-        name: item.name,
-        type: item.name,
-        width: 200,
-        height: 50,
-      });
+  // @ts-ignore
+  const [ref] = useLocalDrop(
+    (pos: Position, item: { name: string; blockType: string }) => {
+      if (blocks.length === 0) {
+        setFirstBlockPosition(pos);
+        addFirstBlock({
+          parent: -1,
+          id: 0,
+          name: item.name,
+          type: item.blockType,
+          width: 200,
+          height: 50,
+        });
+      }
     }
-  });
+  );
+
   const blocksWithPos = computeAllBlockPos(blocks, firstBlockPos, padding);
+
+  const minOffsetLeft = Math.min(...blocksWithPos.map((b) => b.x));
+  if (minOffsetLeft < 20) {
+    setFirstBlockPosition({
+      ...firstBlockPos,
+      x: firstBlockPos.x + Math.abs(minOffsetLeft) + 20,
+    });
+  }
+
   return (
     // @ts-ignore
     <div ref={ref} id="canvas" className="canvas">
@@ -47,6 +66,7 @@ export const Canvas: React.FC<CanvasProps> = ({
             {...b}
             addNewBlock={addNewBlock}
             changeParent={changeParent}
+            Template={templates[b.type]}
           />
           {b.arrow && <Arrow {...b.arrow} />}
         </React.Fragment>

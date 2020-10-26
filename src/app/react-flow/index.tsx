@@ -7,6 +7,7 @@ import { Block } from './types';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { getAllChildrenBlocks } from './utils';
+import BlocksTemplates from './blocksTemplate';
 
 const flowyStyles = css`
   .template {
@@ -94,6 +95,9 @@ const flowyStyles = css`
 
 export const ReactFlowy: React.FC = () => {
   const [blocks, setBlocks] = useState<Block[]>([]);
+  // @ts-ignore
+  const [firstBlockPos, setFirstBlockPos] = useState<Position>({});
+
   const addNewBlock = (block: Block) => {
     setBlocks([
       ...blocks,
@@ -102,6 +106,9 @@ export const ReactFlowy: React.FC = () => {
   };
   const addFirstBlock = (block: Block) => {
     setBlocks([block]);
+  };
+  const setFirstBlockPosition = (position: Position) => {
+    setFirstBlockPos(position);
   };
   const changeParent = (id: number, parent: number) => {
     const block = blocks.find((b) => b.id === id);
@@ -114,6 +121,7 @@ export const ReactFlowy: React.FC = () => {
       ...children,
     ]);
   };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div css={flowyStyles}>
@@ -123,12 +131,17 @@ export const ReactFlowy: React.FC = () => {
           addFirstBlock={addFirstBlock}
           padding={{ x: 20, y: 40 }}
           changeParent={changeParent}
+          templates={BlocksTemplates}
+          //@ts-ignore
+          setFirstBlockPosition={setFirstBlockPosition}
+          //@ts-ignore
+          firstBlockPos={firstBlockPos}
         />
         <div className="blocks">
-          <DragBlock name="block-1" />
-          <DragBlock name="block-2" />
-          <DragBlock name="block-3" />
-          <DragBlock name="block-4" />
+          <DragBlock name="block-1" type="input" />
+          <DragBlock name="block-2" type="options" />
+          <DragBlock name="block-3" type="text" />
+          <DragBlock name="block-4" type="email" />
         </div>
       </div>
     </DndProvider>

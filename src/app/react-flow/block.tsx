@@ -13,6 +13,7 @@ interface BlockProps {
   parent?: number;
   // eslint-disable-next-line no-unused-vars
   changeParent: (id: number, parent: number) => void;
+  Template: any;
 }
 
 export const BlockComponent: React.FC<BlockProps> = ({
@@ -23,6 +24,7 @@ export const BlockComponent: React.FC<BlockProps> = ({
   id,
   parent,
   changeParent,
+  Template,
 }: BlockProps) => {
   const [hideDragArea, setHideDragArea] = useState(false);
   // @ts-ignore
@@ -31,7 +33,7 @@ export const BlockComponent: React.FC<BlockProps> = ({
       addNewBlock({
         parent: id,
         name: item.name,
-        type: item.name,
+        type: item.blockType,
         width: 200,
         height: 50,
       });
@@ -53,19 +55,22 @@ export const BlockComponent: React.FC<BlockProps> = ({
     canDrag: () => parent !== -1,
   });
   return (
-    <div
-      ref={drag}
-      className={`block ${isOver ? 'show-indicator' : ''}`}
-      style={{ left: x, top: y }}
-    >
-      {name}
-      {!hideDragArea && (
-        <div className="drag-area-container">
-          {/* @ts-ignore */}
-          <div ref={ref} className="drag-area"></div>
-        </div>
-      )}
-    </div>
+    <>
+      <div
+        ref={drag}
+        className={`block ${isOver ? 'show-indicator' : ''}`}
+        style={{ left: x, top: y }}
+      >
+        {name}
+        <Template />
+        {!hideDragArea && (
+          <div className="drag-area-container">
+            {/* @ts-ignore */}
+            <div ref={ref} className="drag-area"></div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
