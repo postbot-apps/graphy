@@ -6,9 +6,11 @@ import {
   DoubleChevronRightIcon,
 } from 'evergreen-ui';
 import { FunctionComponent, useState } from 'react';
+import DragBlock from './react-flow/dragBlock';
 
 const actionBarStyles = (shown: boolean) => css`
-  height: calc(100vh - 64px);
+  z-index: 10;
+  height: calc(100vh - 128px);
   padding: 30px 0px;
   width: ${shown ? '380px' : '0px'};
   position: relative;
@@ -116,6 +118,7 @@ const ActionBar: FunctionComponent<ActionBarProps> = () => {
                 ))}
               </div>
             ))}
+            <DragBlock name="block-1" type="input" />
           </div>
         </div>
       </div>

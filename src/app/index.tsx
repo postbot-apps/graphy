@@ -14,7 +14,7 @@ import { Loading } from './shared/components/loading';
 const Workflows = React.lazy(() => import('./pages/dashboard/workflows'));
 const Editor = React.lazy(() => import('./pages/editor'));
 const HomePage = React.lazy(() => import('./pages/home'));
-const Flow = React.lazy(() => import('./react-flow'));
+const Flow = React.lazy(() => import('./pages/editor/react-flow'));
 
 const routes = [
   {

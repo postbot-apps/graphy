@@ -6,6 +6,13 @@ import { Loading } from '../../shared/components/loading';
 import { Navbar } from '../../shared/components/navbar';
 import { GET_WORKFLOW } from './query';
 import ActionBar from './actionbar';
+// import QuestionAction from './actions/questionAction';
+// import ChoiceAction from './actions/choiceAction';
+// import SolutionAction from './actions/solutionAction';
+// import Canvas from './react-flow/canvas';
+import ReactFlowy from './react-flow';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 interface EditorProps {
   match: {
@@ -18,11 +25,49 @@ interface EditorProps {
 const editorStyles = css`
   display: flex;
   .editor__main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAH0lEQVQoU2NkYGD4z8DAwMhAABBUANM/qhBvSBIdPACgdAELiyknowAAAABJRU5ErkJggg==)
       repeat;
     width: 100%;
   }
 `;
+
+// const sampleWorkflow = {
+//   id: 1,
+//   type: 'survey',
+//   nodes: [
+//     {
+//       type: 'question',
+//       title: 'My question Example',
+//       description: 'My question description',
+//       nodes: [
+//         {
+//           type: 'choice 1',
+//           title: 'My choice 1',
+//           nodes: [
+//             {
+//               type: 'solution',
+//               title: 'My solution 1',
+//             },
+//           ],
+//         },
+//         {
+//           type: 'choice',
+//           title: 'My choice 2',
+//           nodes: [
+//             {
+//               type: 'solution',
+//               title: 'My solution 2',
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//   ],
+// };
 
 const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
   const [workflow, setWorkflow] = useState(null);
@@ -70,8 +115,10 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
         onDiscard={() => {}}
       />
       <div css={editorStyles}>
-        <ActionBar />
-        <div className="editor__main"></div>
+        <DndProvider backend={HTML5Backend}>
+          <ActionBar />
+          <ReactFlowy />
+        </DndProvider>
       </div>
     </div>
   );

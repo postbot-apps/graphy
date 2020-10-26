@@ -2,14 +2,12 @@
 import { jsx, css } from '@emotion/core';
 import React, { useState } from 'react';
 import Canvas from './canvas';
-import DragBlock from './dragBlock';
 import { Block } from './types';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import { getAllChildrenBlocks } from './utils';
 import BlocksTemplates from './blocksTemplate';
 
 const flowyStyles = css`
+  width: 100%;
   .template {
     width: 200px;
     height: 50px;
@@ -26,8 +24,9 @@ const flowyStyles = css`
   }
 
   #canvas {
-    background: #e6e6e6;
-    height: 800px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAH0lEQVQoU2NkYGD4z8DAwMhAABBUANM/qhBvSBIdPACgdAELiyknowAAAABJRU5ErkJggg==);
+    height: calc(100vh - 64px);
+    width: 100%;
     position: relative;
     overflow: scroll;
   }
@@ -136,27 +135,25 @@ export const ReactFlowy: React.FC = () => {
 
   console.log(blocks);
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div css={flowyStyles}>
-        <Canvas
-          blocks={blocks}
-          addNewBlock={addNewBlock}
-          addFirstBlock={addFirstBlock}
-          padding={{ x: 20, y: 40 }}
-          changeParent={changeParent}
-          templates={BlocksTemplates}
-          //@ts-ignore
-          setFirstBlockPosition={setFirstBlockPosition}
-          //@ts-ignore
-          firstBlockPos={firstBlockPos}
-          setSelectedBlock={setSelectedBlock}
-        />
-        <div className="blocks">
-          <DragBlock name="block-1" type="input" />
-          <DragBlock name="block-2" type="options" />
-          <DragBlock name="block-3" type="text" />
-          <DragBlock name="block-4" type="email" />
-        </div>
+    <div css={flowyStyles}>
+      <Canvas
+        blocks={blocks}
+        addNewBlock={addNewBlock}
+        addFirstBlock={addFirstBlock}
+        padding={{ x: 20, y: 40 }}
+        changeParent={changeParent}
+        templates={BlocksTemplates}
+        //@ts-ignore
+        setFirstBlockPosition={setFirstBlockPosition}
+        //@ts-ignore
+        firstBlockPos={firstBlockPos}
+        setSelectedBlock={setSelectedBlock}
+      />
+      <div className="blocks">
+        {/* <DragBlock name="block-1" type="input" />
+        <DragBlock name="block-2" type="options" />
+        <DragBlock name="block-3" type="text" />
+        <DragBlock name="block-4" type="email" /> */}
       </div>
       {selectedBlock !== -1 && (
         <div className="side-sheet">
@@ -167,7 +164,7 @@ export const ReactFlowy: React.FC = () => {
           />
         </div>
       )}
-    </DndProvider>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useLocalDrop } from './hooks';
 import { Block } from './types';
 import { useDrag } from 'react-dnd';
@@ -14,6 +14,8 @@ interface BlockProps {
   // eslint-disable-next-line no-unused-vars
   changeParent: (id: number, parent: number) => void;
   Template: any;
+  setSelectedBlock: Dispatch<SetStateAction<number>>;
+  text?: string;
 }
 
 export const BlockComponent: React.FC<BlockProps> = ({

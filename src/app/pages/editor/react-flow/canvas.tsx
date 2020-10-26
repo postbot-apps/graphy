@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import Arrow from './arrow';
 import BlockComponent from './block';
 import { useLocalDrop } from './hooks';
@@ -18,6 +18,7 @@ interface CanvasProps {
   // eslint-disable-next-line no-unused-vars
   setFirstBlockPosition: (position: Position) => void;
   firstBlockPos: Position;
+  setSelectedBlock: Dispatch<SetStateAction<number>>;
 }
 
 export const Canvas: React.FC<CanvasProps> = ({
