@@ -13,12 +13,69 @@ export const BlockTemplate: React.FC<BlockTemplateProps> = ({
   return <div>{block.title} Block</div>;
 };
 
-export const TaskBlockTemplate: React.FC<BlockTemplateProps> = ({
+export const QueryBlockTemplate: React.FC<BlockTemplateProps> = ({
   block = {},
   setBlockContent,
 }: BlockTemplateProps) => {
   return (
     <TaskAction
+      type={block.type}
+      title={block.title}
+      description={block.description}
+      setBlockContent={setBlockContent}
+    />
+  );
+};
+
+export const ActionBlockTemplate: React.FC<BlockTemplateProps> = ({
+  block = {},
+  setBlockContent,
+}: BlockTemplateProps) => {
+  return (
+    <TaskAction
+      type={block.type}
+      title={block.title}
+      description={block.description}
+      setBlockContent={setBlockContent}
+    />
+  );
+};
+
+export const SuccessBlockTemplate: React.FC<BlockTemplateProps> = ({
+  block = {},
+  setBlockContent,
+}: BlockTemplateProps) => {
+  return (
+    <TaskAction
+      type={block.type}
+      title={block.title}
+      description={block.description}
+      setBlockContent={setBlockContent}
+    />
+  );
+};
+
+export const ErrorBlockTemplate: React.FC<BlockTemplateProps> = ({
+  block = {},
+  setBlockContent,
+}: BlockTemplateProps) => {
+  return (
+    <TaskAction
+      type={block.type}
+      title={block.title}
+      description={block.description}
+      setBlockContent={setBlockContent}
+    />
+  );
+};
+
+export const WarningBlockTemplate: React.FC<BlockTemplateProps> = ({
+  block = {},
+  setBlockContent,
+}: BlockTemplateProps) => {
+  return (
+    <TaskAction
+      type={block.type}
       title={block.title}
       description={block.description}
       setBlockContent={setBlockContent}
@@ -27,8 +84,9 @@ export const TaskBlockTemplate: React.FC<BlockTemplateProps> = ({
 };
 
 export default {
-  input: TaskBlockTemplate,
-  options: BlockTemplate,
-  text: BlockTemplate,
-  email: BlockTemplate,
+  query: QueryBlockTemplate,
+  action: ActionBlockTemplate,
+  success: SuccessBlockTemplate,
+  warning: WarningBlockTemplate,
+  error: ErrorBlockTemplate,
 };

@@ -9,17 +9,21 @@ import {
   TextInputField,
 } from 'evergreen-ui';
 import { FunctionComponent, useState } from 'react';
+import BlockHead from './blockHead';
 
 const cardStyles = css`
   display: inline-block;
-  padding: 10px 20px;
   background-color: #fff;
   box-shadow: 0px 4px 30px rgba(22, 33, 74, 0.05);
   width: 100%;
   height: 100%;
+  .card__content {
+    padding: 10px;
+  }
 `;
 
 interface TaskActionProps {
+  type: string;
   title?: string;
   description?: string;
   // eslint-disable-next-line no-unused-vars
@@ -27,12 +31,13 @@ interface TaskActionProps {
 }
 
 const TaskAction: FunctionComponent<TaskActionProps> = ({
+  type,
   title = 'Your task',
   description = 'Your Description',
   setBlockContent,
 }: TaskActionProps) => {
+  console.log(type);
   const [showSideSheet, setShowSideSheet] = useState(false);
-
   return (
     <Card css={cardStyles} onClick={() => setShowSideSheet(true)}>
       <SideSheet
@@ -64,7 +69,8 @@ const TaskAction: FunctionComponent<TaskActionProps> = ({
           </Pane>
         </Pane>
       </SideSheet>
-      <div>
+      <BlockHead type={type} />
+      <div className="card__content">
         <div>{title}</div>
         <div>{description}</div>
       </div>

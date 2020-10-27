@@ -71,9 +71,9 @@ interface ActionBarProps {}
 const tabs = ['Triggers', 'Actions', 'Loggers'];
 
 const actions = [
-  ['Trigger1', 'Trigger2', 'Trigger3'],
-  ['Action1', 'Action2', 'Action3'],
-  ['Loggers1', 'Loggers2', 'Loggers3'],
+  ['query', 'action', 'success'],
+  ['action', 'warning', 'success'],
+  ['query', 'action', 'error'],
 ];
 
 const ActionBar: FunctionComponent<ActionBarProps> = () => {
@@ -111,14 +111,11 @@ const ActionBar: FunctionComponent<ActionBarProps> = () => {
                 key={`action-${index}`}
                 css={tabDataContentStyles(index === selectedTabIndex)}
               >
-                {action.map((a) => (
-                  <div className="tabdata__action" key={a}>
-                    {a}
-                  </div>
+                {action.map((a: string) => (
+                  <DragBlock key={a} type={a} />
                 ))}
               </div>
             ))}
-            <DragBlock name="block-1" type="input" />
           </div>
         </div>
       </div>
