@@ -19,6 +19,8 @@ interface CanvasProps {
   setFirstBlockPosition: (position: Position) => void;
   firstBlockPos: Position;
   setSelectedBlock: Dispatch<SetStateAction<number>>;
+  // eslint-disable-next-line no-unused-vars
+  setBlockContent: (type: string, value: string) => void;
 }
 
 export const Canvas: React.FC<CanvasProps> = ({
@@ -31,6 +33,7 @@ export const Canvas: React.FC<CanvasProps> = ({
   setFirstBlockPosition,
   firstBlockPos,
   setSelectedBlock,
+  setBlockContent,
 }: CanvasProps) => {
   // @ts-ignore
   const [ref] = useLocalDrop(
@@ -42,8 +45,8 @@ export const Canvas: React.FC<CanvasProps> = ({
           id: 0,
           name: item.name,
           type: item.blockType,
-          width: 200,
-          height: 50,
+          width: 300,
+          height: 120,
         });
       }
     }
@@ -70,6 +73,8 @@ export const Canvas: React.FC<CanvasProps> = ({
             addNewBlock={addNewBlock}
             changeParent={changeParent}
             Template={templates[b.type]}
+            setBlockContent={setBlockContent}
+            blocks={blocks}
           />
           {b.arrow && <Arrow {...b.arrow} />}
         </React.Fragment>

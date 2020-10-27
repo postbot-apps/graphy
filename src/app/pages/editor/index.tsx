@@ -1,18 +1,15 @@
 /**@jsx jsx */
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { css, jsx } from '@emotion/core';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { Loading } from '../../shared/components/loading';
 import { Navbar } from '../../shared/components/navbar';
-import { GET_WORKFLOW } from './query';
+import { GET_WORKFLOW, UPDATE_WORKFLOW } from './query';
 import ActionBar from './actionbar';
-// import QuestionAction from './actions/questionAction';
-// import ChoiceAction from './actions/choiceAction';
-// import SolutionAction from './actions/solutionAction';
-// import Canvas from './react-flow/canvas';
 import ReactFlowy from './react-flow';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { cloneDeep } from 'lodash';
 
 interface EditorProps {
   match: {
@@ -35,42 +32,10 @@ const editorStyles = css`
   }
 `;
 
-// const sampleWorkflow = {
-//   id: 1,
-//   type: 'survey',
-//   nodes: [
-//     {
-//       type: 'question',
-//       title: 'My question Example',
-//       description: 'My question description',
-//       nodes: [
-//         {
-//           type: 'choice 1',
-//           title: 'My choice 1',
-//           nodes: [
-//             {
-//               type: 'solution',
-//               title: 'My solution 1',
-//             },
-//           ],
-//         },
-//         {
-//           type: 'choice',
-//           title: 'My choice 2',
-//           nodes: [
-//             {
-//               type: 'solution',
-//               title: 'My solution 2',
-//             },
-//           ],
-//         },
-//       ],
-//     },
-//   ],
-// };
-
 const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
   const [workflow, setWorkflow] = useState(null);
+  const [blocks, setBlocks] = useState([]);
+  const [updateWorkflow] = useMutation(UPDATE_WORKFLOW);
 
   const id = match.params.id;
 
@@ -85,13 +50,15 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
       return null;
     }
     if (error) {
+      console.log(error);
       console.error(`GET_WORKFLOW error: ${error}`);
       return `Error: ${error.message}`;
     }
     if (data && data.getWorkflow) {
-      setWorkflow(data.getWorkflow);
+      const updatedData = cloneDeep(data);
+      setWorkflow(updatedData.getWorkflow);
+      setBlocks(updatedData.getWorkflow.nodes);
     }
-    console.log(data);
   };
 
   useEffect(() => {
@@ -106,18 +73,35 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
     return <div>nothing here</div>;
   }
 
+  const onSave = () => {
+    updateWorkflow({
+      variables: {
+        id: id,
+        workflow: blocks,
+      },
+      refetchQueries: [
+        {
+          query: GET_WORKFLOW,
+          variables: {
+            id,
+          },
+        },
+      ],
+    });
+  };
+
   return (
     <div>
       <Navbar
         title={workflow.title}
         description={workflow.description}
-        onSave={() => {}}
+        onSave={onSave}
         onDiscard={() => {}}
       />
       <div css={editorStyles}>
         <DndProvider backend={HTML5Backend}>
           <ActionBar />
-          <ReactFlowy />
+          <ReactFlowy blocks={blocks} setBlocks={setBlocks} />
         </DndProvider>
       </div>
     </div>

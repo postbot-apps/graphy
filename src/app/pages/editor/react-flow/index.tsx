@@ -1,6 +1,6 @@
 /**@jsx jsx */
 import { jsx, css } from '@emotion/core';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import Canvas from './canvas';
 import { Block } from './types';
 import { getAllChildrenBlocks } from './utils';
@@ -35,11 +35,6 @@ const flowyStyles = css`
     background: #d2d2d2;
   }
 
-  .blocks {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  }
-
   .dragging {
     opacity: 0.5;
     box-shadow: none;
@@ -48,10 +43,10 @@ const flowyStyles = css`
   .block {
     position: absolute;
     opacity: 1;
-    width: 200px;
-    height: 50px;
-    text-align: center;
-    background: red;
+    width: 300px;
+    height: 120px;
+    /*text-align: center;*/
+    /* background: red; */
   }
 
   .block .drag-area-container {
@@ -92,8 +87,16 @@ const flowyStyles = css`
   }
 `;
 
-export const ReactFlowy: React.FC = () => {
-  const [blocks, setBlocks] = useState<Block[]>([]);
+interface FlowyProps {
+  blocks: Block[];
+  setBlocks: Dispatch<SetStateAction<Block[]>>;
+}
+
+export const ReactFlowy: React.FC<FlowyProps> = ({
+  blocks,
+  setBlocks,
+}: FlowyProps) => {
+  // const [blocks, setBlocks] = useState<Block[]>([]);
   const [selectedBlock, setSelectedBlock] = useState<number>(-1);
   // @ts-ignore
   const [firstBlockPos, setFirstBlockPos] = useState<Position>({});
@@ -122,11 +125,11 @@ export const ReactFlowy: React.FC = () => {
     ]);
   };
 
-  const setText = (value: string) => {
+  const setBlockContent = (type: string, value: string) => {
     setBlocks(
       blocks.map((b) => {
         if (b.id === selectedBlock) {
-          return { ...b, text: value };
+          return { ...b, [type]: value };
         }
         return b;
       })
@@ -148,22 +151,8 @@ export const ReactFlowy: React.FC = () => {
         //@ts-ignore
         firstBlockPos={firstBlockPos}
         setSelectedBlock={setSelectedBlock}
+        setBlockContent={setBlockContent}
       />
-      <div className="blocks">
-        {/* <DragBlock name="block-1" type="input" />
-        <DragBlock name="block-2" type="options" />
-        <DragBlock name="block-3" type="text" />
-        <DragBlock name="block-4" type="email" /> */}
-      </div>
-      {selectedBlock !== -1 && (
-        <div className="side-sheet">
-          <input
-            type="text"
-            placeholder="Text to show"
-            onChange={(e) => setText(e.target.value)}
-          />
-        </div>
-      )}
     </div>
   );
 };

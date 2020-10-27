@@ -16,6 +16,9 @@ interface BlockProps {
   Template: any;
   setSelectedBlock: Dispatch<SetStateAction<number>>;
   text?: string;
+  // eslint-disable-next-line no-unused-vars
+  setBlockContent: (type: string, value: string) => void;
+  blocks: any;
 }
 
 export const BlockComponent: React.FC<BlockProps> = ({
@@ -29,6 +32,8 @@ export const BlockComponent: React.FC<BlockProps> = ({
   Template,
   setSelectedBlock,
   text,
+  setBlockContent,
+  blocks,
 }: BlockProps) => {
   const [hideDragArea, setHideDragArea] = useState(false);
   // @ts-ignore
@@ -38,8 +43,8 @@ export const BlockComponent: React.FC<BlockProps> = ({
         parent: id,
         name: item.name,
         type: item.blockType,
-        width: 200,
-        height: 50,
+        width: 300,
+        height: 120,
       });
     } else {
       changeParent(item.id, id);
@@ -66,8 +71,12 @@ export const BlockComponent: React.FC<BlockProps> = ({
         style={{ left: x, top: y }}
         onClick={() => setSelectedBlock(id)}
       >
-        {name}
-        <Template text={text} />
+        {/* {name} */}
+        <Template
+          text={text}
+          setBlockContent={setBlockContent}
+          block={blocks.find((d: any) => d.id === id)}
+        />
         {!hideDragArea && (
           <div className="drag-area-container">
             {/* @ts-ignore */}

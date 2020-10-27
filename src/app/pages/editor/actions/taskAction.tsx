@@ -14,21 +14,23 @@ const cardStyles = css`
   display: inline-block;
   padding: 10px 20px;
   background-color: #fff;
-  margin-top: 20px;
   box-shadow: 0px 4px 30px rgba(22, 33, 74, 0.05);
+  width: 100%;
+  height: 100%;
 `;
 
-interface QuestionActionProps {
-  questionData?: string;
-  descriptionData?: string;
+interface TaskActionProps {
+  title?: string;
+  description?: string;
+  // eslint-disable-next-line no-unused-vars
+  setBlockContent: (type: string, value: string) => void;
 }
 
-const QuestionAction: FunctionComponent<QuestionActionProps> = ({
-  questionData = 'Your Question',
-  descriptionData = 'Your Description',
-}) => {
-  const [question, setQuestion] = useState(questionData);
-  const [description, setDescription] = useState(descriptionData);
+const TaskAction: FunctionComponent<TaskActionProps> = ({
+  title = 'Your task',
+  description = 'Your Description',
+  setBlockContent,
+}: TaskActionProps) => {
   const [showSideSheet, setShowSideSheet] = useState(false);
 
   return (
@@ -46,28 +48,28 @@ const QuestionAction: FunctionComponent<QuestionActionProps> = ({
           </Pane>
           <Pane padding={16}>
             <TextInputField
-              label="Your question"
-              value={question}
+              label="Your task"
+              value={title}
               onChange={(e: any) => {
-                setQuestion(e.target.value);
+                setBlockContent('title', e.target.value);
               }}
             />
             <TextInputField
               label="Your description"
               value={description}
               onChange={(e: any) => {
-                setDescription(e.target.value);
+                setBlockContent('description', e.target.value);
               }}
             />
           </Pane>
         </Pane>
       </SideSheet>
       <div>
-        <div>{question}</div>
+        <div>{title}</div>
         <div>{description}</div>
       </div>
     </Card>
   );
 };
 
-export default QuestionAction;
+export default TaskAction;

@@ -1,24 +1,33 @@
 import React from 'react';
+import TaskAction from '../actions/taskAction';
 
 interface BlockTemplateProps {
-  name: string;
-  type: string;
+  block: any;
+  // eslint-disable-next-line no-unused-vars
+  setBlockContent: (type: string, value: string) => void;
 }
 
 export const BlockTemplate: React.FC<BlockTemplateProps> = ({
-  type,
+  block,
 }: BlockTemplateProps) => {
-  return <div>{type} Block</div>;
+  return <div>{block.title} Block</div>;
 };
 
-export const InputBlockTemplate: React.FC<BlockTemplateProps> = ({
-  text,
+export const TaskBlockTemplate: React.FC<BlockTemplateProps> = ({
+  block = {},
+  setBlockContent,
 }: BlockTemplateProps) => {
-  return <div>Input Block {text}</div>;
+  return (
+    <TaskAction
+      title={block.title}
+      description={block.description}
+      setBlockContent={setBlockContent}
+    />
+  );
 };
 
 export default {
-  input: InputBlockTemplate,
+  input: TaskBlockTemplate,
   options: BlockTemplate,
   text: BlockTemplate,
   email: BlockTemplate,
