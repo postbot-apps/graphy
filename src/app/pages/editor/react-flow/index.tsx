@@ -2,7 +2,7 @@
 import { jsx, css } from '@emotion/core';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import Canvas from './canvas';
-import { Block } from './types';
+import { Block, Position } from './types';
 import { getAllChildrenBlocks } from './utils';
 import BlocksTemplates from './blocksTemplate';
 
@@ -90,16 +90,19 @@ const flowyStyles = css`
 interface FlowyProps {
   blocks: Block[];
   setBlocks: Dispatch<SetStateAction<Block[]>>;
+  firstBlockPos: Position;
+  setFirstBlockPos: Dispatch<SetStateAction<Position>>;
 }
 
 export const ReactFlowy: React.FC<FlowyProps> = ({
   blocks,
   setBlocks,
+  firstBlockPos,
+  setFirstBlockPos,
 }: FlowyProps) => {
   // const [blocks, setBlocks] = useState<Block[]>([]);
   const [selectedBlock, setSelectedBlock] = useState<number>(-1);
   // @ts-ignore
-  const [firstBlockPos, setFirstBlockPos] = useState<Position>({});
 
   const addNewBlock = (block: Block) => {
     setBlocks([

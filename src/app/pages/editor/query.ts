@@ -6,43 +6,53 @@ export const GET_WORKFLOW = gql`
       title
       type
       description
+      firstBlockPosition {
+        x
+        y
+      }
       nodes {
-        type
         type
         title
         description
-        childWidth
         height
         id
         name
         parent
         width
-        x
-        y
       }
     }
   }
 `;
 
 export const UPDATE_WORKFLOW = gql`
-  mutation UpdateWorkflow($id: ID!, $workflow: [NodeRef!]) {
-    updateWorkflow(input: { filter: { id: [$id] }, set: { nodes: $workflow } }) {
+  mutation UpdateWorkflow(
+    $id: ID!
+    $workflow: [NodeRef!]
+    $firstBlockPos: PositionRef!
+  ) {
+    updateWorkflow(
+      input: {
+        filter: { id: [$id] }
+        set: { nodes: $workflow, firstBlockPosition: $firstBlockPos }
+      }
+    ) {
       workflow {
         title
         type
         description
+        firstBlockPosition {
+          x
+          y
+        }
         nodes {
           type
           title
           description
-          childWidth
           height
           id
           name
           parent
           width
-          x
-          y
         }
       }
     }

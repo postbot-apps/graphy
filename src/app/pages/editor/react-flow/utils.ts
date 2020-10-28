@@ -1,11 +1,12 @@
 import { Block, Position } from './types';
+import { cloneDeep } from 'lodash';
 
 export const computeAllBlockPos = (
   blocks: Block[],
   firstBlockPos: Position,
   padding: Position
 ) => {
-  const newBlocks = [...blocks];
+  const newBlocks = cloneDeep(blocks);
   recalcChildrenWidth(newBlocks, { id: -1 }, padding);
   return getBlocksWithPositions(newBlocks, firstBlockPos, padding);
 };

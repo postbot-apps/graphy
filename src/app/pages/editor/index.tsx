@@ -10,6 +10,7 @@ import ReactFlowy from './react-flow';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { cloneDeep } from 'lodash';
+import { Position } from './react-flow/types';
 
 interface EditorProps {
   match: {
@@ -36,6 +37,8 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
   const [workflow, setWorkflow] = useState(null);
   const [blocks, setBlocks] = useState([]);
   const [updateWorkflow] = useMutation(UPDATE_WORKFLOW);
+  //@ts-ignore
+  const [firstBlockPos, setFirstBlockPos] = useState<Position>({});
 
   const id = match.params.id;
 
@@ -58,6 +61,8 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
       const updatedData = cloneDeep(data);
       setWorkflow(updatedData.getWorkflow);
       setBlocks(updatedData.getWorkflow.nodes);
+      setFirstBlockPos(updatedData.getWorkflow.firstBlockPosition);
+      console.log(updatedData.getWorkflow.nodes);
     }
   };
 
@@ -74,10 +79,21 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
   }
 
   const onSave = () => {
+    console.log(blocks);
+    console.log(firstBlockPos);
+    const updatedBlocks = blocks.map((block) => {
+      // eslint-disable-next-line no-unused-vars
+      const { __typename, ...rest } = block;
+      return rest;
+    });
+    //@ts-ignore
+    // eslint-disable-next-line no-unused-vars
+    const { __typename, ...rest } = firstBlockPos;
     updateWorkflow({
       variables: {
         id: id,
-        workflow: blocks,
+        workflow: updatedBlocks,
+        firstBlockPos: rest,
       },
       refetchQueries: [
         {
@@ -101,7 +117,12 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
       <div css={editorStyles}>
         <DndProvider backend={HTML5Backend}>
           <ActionBar />
-          <ReactFlowy blocks={blocks} setBlocks={setBlocks} />
+          <ReactFlowy
+            blocks={blocks}
+            setBlocks={setBlocks}
+            firstBlockPos={firstBlockPos}
+            setFirstBlockPos={setFirstBlockPos}
+          />
         </DndProvider>
       </div>
     </div>
