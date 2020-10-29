@@ -6,9 +6,11 @@ import {
   DoubleChevronRightIcon,
 } from 'evergreen-ui';
 import { FunctionComponent, useState } from 'react';
+import DragBlock from './react-flow/dragBlock';
 
 const actionBarStyles = (shown: boolean) => css`
-  height: calc(100vh - 64px);
+  z-index: 10;
+  height: calc(100vh - 128px);
   padding: 30px 0px;
   width: ${shown ? '380px' : '0px'};
   position: relative;
@@ -69,9 +71,9 @@ interface ActionBarProps {}
 const tabs = ['Triggers', 'Actions', 'Loggers'];
 
 const actions = [
-  ['Trigger1', 'Trigger2', 'Trigger3'],
-  ['Action1', 'Action2', 'Action3'],
-  ['Loggers1', 'Loggers2', 'Loggers3'],
+  ['query', 'action', 'success'],
+  ['action', 'warning', 'success'],
+  ['query', 'action', 'error'],
 ];
 
 const ActionBar: FunctionComponent<ActionBarProps> = () => {
@@ -109,10 +111,8 @@ const ActionBar: FunctionComponent<ActionBarProps> = () => {
                 key={`action-${index}`}
                 css={tabDataContentStyles(index === selectedTabIndex)}
               >
-                {action.map((a) => (
-                  <div className="tabdata__action" key={a}>
-                    {a}
-                  </div>
+                {action.map((a: string) => (
+                  <DragBlock key={a} type={a} />
                 ))}
               </div>
             ))}

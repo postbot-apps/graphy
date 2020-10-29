@@ -1,0 +1,91 @@
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import { useLocalDrop } from './hooks';
+import { Block } from './types';
+import { useDrag } from 'react-dnd';
+
+interface BlockProps {
+  x?: number;
+  y?: number;
+  name: string;
+  // eslint-disable-next-line no-unused-vars
+  addNewBlock: (blocks: Block) => void;
+  id?: number;
+  parent?: number;
+  // eslint-disable-next-line no-unused-vars
+  changeParent: (id: number, parent: number) => void;
+  Template: any;
+  setSelectedBlock: Dispatch<SetStateAction<number>>;
+  text?: string;
+  // eslint-disable-next-line no-unused-vars
+  setBlockContent: (type: string, value: string) => void;
+  blocks: any;
+}
+
+export const BlockComponent: React.FC<BlockProps> = ({
+  x,
+  y,
+  name,
+  addNewBlock,
+  id,
+  parent,
+  changeParent,
+  Template,
+  setSelectedBlock,
+  text,
+  setBlockContent,
+  blocks,
+}: BlockProps) => {
+  const [hideDragArea, setHideDragArea] = useState(false);
+  // @ts-ignore
+  const [ref, { isOver }] = useLocalDrop((pos, item) => {
+    if (item.type === 'block') {
+      addNewBlock({
+        parent: id,
+        name: item.name,
+        type: item.blockType,
+        width: 300,
+        height: 120,
+      });
+    } else {
+      changeParent(item.id, id);
+    }
+  });
+  const [, drag] = useDrag({
+    item: { name, id, type: 'block-rearrange' },
+    collect: (monitor: any) => ({
+      isDragging: monitor.isDragging(),
+    }),
+    begin: () => {
+      setHideDragArea(true);
+    },
+    end: () => {
+      setHideDragArea(false);
+    },
+    canDrag: () => parent !== -1,
+  });
+  return (
+    <>
+      <div
+        ref={drag}
+        className={`block ${isOver ? 'show-indicator' : ''}`}
+        style={{ left: x, top: y }}
+        onClick={() => setSelectedBlock(id)}
+      >
+        {/* {name} */}
+        <Template
+          text={text}
+          setBlockContent={setBlockContent}
+          block={blocks.find((d: any) => d.id === id)}
+        />
+        {!hideDragArea && (
+          <div className="drag-area-container">
+            {/* @ts-ignore */}
+            <div ref={ref} className="drag-area"></div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
+
+export default BlockComponent;

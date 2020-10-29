@@ -26,6 +26,7 @@ interface NavbarProps {
   description: string;
   onSave: () => void;
   onDiscard: () => void;
+  onClear: () => void;
 }
 
 export const Navbar: FunctionComponent<NavbarProps> = ({
@@ -33,6 +34,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   description,
   onSave,
   onDiscard,
+  onClear,
 }: NavbarProps) => {
   const [optionValue, setOptionValue] = useState('diagram');
 
@@ -61,6 +63,9 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
         />
       </div>
       <div className="navbar__actions">
+        <Button marginRight={10} onClick={onClear}>
+          Clear
+        </Button>
         <Button marginRight={10} onClick={onDiscard}>
           Discard
         </Button>
