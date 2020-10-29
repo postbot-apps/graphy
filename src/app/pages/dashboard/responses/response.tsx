@@ -1,9 +1,10 @@
 /**@jsx jsx */
 import { jsx } from '@emotion/core';
-import { Pane, Table } from 'evergreen-ui';
+import { Heading, Pane, Table } from 'evergreen-ui';
 import React from 'react';
 import { FunctionComponent } from 'react';
 import { useHistory } from 'react-router-dom';
+import Container from '../container';
 
 const workflow = [
   {
@@ -86,21 +87,28 @@ const response = [
 
 const ResponsesPage: FunctionComponent<any> = () => {
   return (
-    <Pane>
-      {response.map((r) => {
-        const block = workflow.find((b) => r.id === b.id);
-        return (
-          <React.Fragment key={r.id}>
-            <Table.Row background="#EDF0F2">
-              <Table.TextCell>Q: {block.text}</Table.TextCell>
-            </Table.Row>
-            <Table.Row>
-              <Table.TextCell>A: {r.option}</Table.TextCell>
-            </Table.Row>
-          </React.Fragment>
-        );
-      })}
-    </Pane>
+    <Container>
+      <Pane width="100%">
+        <Heading size={800} marginTop="default">
+          Response
+        </Heading>
+        <Pane width="100%" marginTop={30}>
+          {response.map((r) => {
+            const block = workflow.find((b) => r.id === b.id);
+            return (
+              <React.Fragment key={r.id}>
+                <Table.Row background="#EDF0F2">
+                  <Table.TextCell>Q: {block.text}</Table.TextCell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.TextCell>A: {r.option}</Table.TextCell>
+                </Table.Row>
+              </React.Fragment>
+            );
+          })}
+        </Pane>
+      </Pane>
+    </Container>
   );
 };
 

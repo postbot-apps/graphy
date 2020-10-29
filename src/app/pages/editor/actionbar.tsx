@@ -68,12 +68,12 @@ const tabDataContentStyles = (selected: boolean) => css`
 
 interface ActionBarProps {}
 
-const tabs = ['Triggers', 'Actions', 'Loggers'];
+const tabs = ['Inputs', 'Flow', 'Display'];
 
 const actions = [
-  ['query', 'action', 'success'],
-  ['action', 'warning', 'success'],
-  ['query', 'action', 'error'],
+  ['input', 'checkbox'],
+  ['text', 'link'],
+  ['options', 'optionsItem'],
 ];
 
 const ActionBar: FunctionComponent<ActionBarProps> = () => {

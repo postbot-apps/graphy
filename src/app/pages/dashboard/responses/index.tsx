@@ -1,6 +1,8 @@
 /**@jsx jsx */
 import { jsx } from '@emotion/core';
+import { Heading, Pane } from 'evergreen-ui';
 import { FunctionComponent } from 'react';
+import Container from '../container';
 import Responses from './responses';
 import { WorkflowItem } from './types';
 
@@ -98,7 +100,16 @@ const responses = [
 ];
 
 const ResponsesPage: FunctionComponent<ResponsesPageProps> = () => {
-  return <Responses workflow={sampleWorkflow} responses={responses} />;
+  return (
+    <Container>
+      <Pane width="100%">
+        <Heading size={800} marginTop="default">
+          Responses
+        </Heading>
+        <Responses workflow={sampleWorkflow} responses={responses} />
+      </Pane>
+    </Container>
+  );
 };
 
 export default ResponsesPage;

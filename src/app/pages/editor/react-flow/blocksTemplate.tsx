@@ -84,9 +84,10 @@ export const WarningBlockTemplate: React.FC<BlockTemplateProps> = ({
 };
 
 export default {
-  query: QueryBlockTemplate,
-  action: ActionBlockTemplate,
-  success: SuccessBlockTemplate,
-  warning: WarningBlockTemplate,
-  error: ErrorBlockTemplate,
+  input: QueryBlockTemplate,
+  options: QueryBlockTemplate,
+  optionsItem: QueryBlockTemplate,
+  text: QueryBlockTemplate,
+  link: QueryBlockTemplate,
+  checkbox: QueryBlockTemplate,
 };

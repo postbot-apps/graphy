@@ -6,7 +6,7 @@ import { Button, Pane, TextInput } from 'evergreen-ui';
 const OptionsTemplate: FunctionComponent<any> = ({ block, selectOption }: any) => {
   return (
     <Pane marginTop={20}>
-      {block.options.map((option) => (
+      {block.options.map((option: any) => (
         <Button
           key={option.id}
           marginRight={16}
@@ -25,7 +25,7 @@ const TextTemplate: FunctionComponent<any> = () => {
   return <Pane marginTop={20}></Pane>;
 };
 
-const TextInputTemplate: FunctionComponent<any> = ({ block, saveInput }) => {
+const TextInputTemplate: FunctionComponent<any> = ({ block, saveInput }: any) => {
   const [value, setValue] = useState('');
   return (
     <Pane marginTop={20}>
@@ -47,7 +47,9 @@ const templates = {
   input: TextInputTemplate,
 };
 
-export default (props) => {
+// eslint-disable-next-line react/display-name
+export default (props: any) => {
+  // @ts-expect-error
   const Template = templates[props.block.type];
   return <Template {...props} />;
 };

@@ -8,6 +8,12 @@ import {
   CrownIcon,
   WarningSignIcon,
   ErrorIcon,
+  DiagramTreeIcon,
+  FormIcon,
+  InboxIcon,
+  LinkIcon,
+  TextHighlightIcon,
+  NewTextBoxIcon,
 } from 'evergreen-ui';
 import { useDrag } from 'react-dnd';
 
@@ -21,6 +27,7 @@ const dragBlockStyles = css`
   .dragBlock__content {
     display: flex;
     align-items: flex-start;
+    flex: 1;
     .dragBlock__content-text {
       margin-left: 10px;
       h3 {
@@ -53,30 +60,35 @@ interface BlockDataInfo {
 }
 
 export const blockData: Record<string, BlockDataInfo> = {
-  query: {
-    icon: EyeOpenIcon,
-    name: 'New Query',
-    description: 'Triggers when somebody encounters a new query',
+  input: {
+    icon: TextHighlightIcon,
+    name: 'Text Input',
+    description: 'Shows a text input box.',
   },
-  action: {
-    icon: BuildIcon,
-    name: 'Action is Performed',
-    description: 'Triggers when somebody performs a specified action',
+  options: {
+    icon: DiagramTreeIcon,
+    name: 'Options',
+    description: 'Can add options.',
   },
-  success: {
-    icon: CrownIcon,
-    name: 'Action was successfull',
-    description: 'Triggers when some action is successfull',
+  optionsItem: {
+    icon: InboxIcon,
+    name: 'Options Item',
+    description: 'Items for each options.',
   },
-  warning: {
-    icon: WarningSignIcon,
-    name: 'Action has a warning',
-    description: 'Triggers when some action has a warning',
+  text: {
+    icon: NewTextBoxIcon,
+    name: 'Text',
+    description: 'Shows a text.',
   },
-  error: {
-    icon: ErrorIcon,
-    name: 'Action has an error',
-    description: 'Triggers when some action has an error',
+  link: {
+    icon: LinkIcon,
+    name: 'Link',
+    description: 'Shows a button with link.',
+  },
+  checkbox: {
+    icon: FormIcon,
+    name: 'Checkbox',
+    description: 'Shows a checkbox.',
   },
 };
 
