@@ -72,8 +72,8 @@ const tabs = ['Inputs', 'Flow', 'Display'];
 
 const actions = [
   ['input', 'checkbox'],
-  ['text', 'link'],
   ['options', 'optionsItem'],
+  ['text', 'link'],
 ];
 
 const ActionBar: FunctionComponent<ActionBarProps> = () => {

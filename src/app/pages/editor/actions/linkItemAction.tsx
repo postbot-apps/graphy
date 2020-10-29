@@ -7,6 +7,7 @@ import {
   Paragraph,
   SideSheet,
   TextInputField,
+  Text,
 } from 'evergreen-ui';
 import { FunctionComponent, useState } from 'react';
 import BlockHead from './blockHead';
@@ -26,14 +27,18 @@ interface TaskActionProps {
   type: string;
   title?: string;
   description?: string;
+  buttonText?: string;
+  link?: string;
   // eslint-disable-next-line no-unused-vars
   setBlockContent: (type: string, value: string) => void;
 }
 
 const TaskAction: FunctionComponent<TaskActionProps> = ({
   type,
-  title = 'Your task',
-  description = 'Your Description',
+  title,
+  description,
+  buttonText,
+  link,
   setBlockContent,
 }: TaskActionProps) => {
   const [showSideSheet, setShowSideSheet] = useState(false);
@@ -41,8 +46,26 @@ const TaskAction: FunctionComponent<TaskActionProps> = ({
     <Card css={cardStyles} onClick={() => setShowSideSheet(true)}>
       <BlockHead type={type} />
       <div className="card__content">
-        <div>{title}</div>
-        <div>{description}</div>
+        <Heading
+          size={400}
+          width="100%"
+          display="block"
+          textOverflow="ellipsis"
+          whiteSpace="nowrap"
+          overflow="hidden"
+        >
+          {title || 'No Title'}
+        </Heading>
+        <Text
+          size={300}
+          width="100%"
+          display="block"
+          textOverflow="ellipsis"
+          whiteSpace="nowrap"
+          overflow="hidden"
+        >
+          {description || 'No Description'}
+        </Text>
       </div>
       <SideSheet
         isShown={showSideSheet}
@@ -50,9 +73,9 @@ const TaskAction: FunctionComponent<TaskActionProps> = ({
       >
         <Pane zIndex={1} flexShrink={0} elevation={0} backgroundColor="white">
           <Pane padding={16} borderBottom="muted">
-            <Heading size={600}>Title</Heading>
+            <Heading size={600}>Input Action</Heading>
             <Paragraph size={400} color="muted">
-              Optional description or sub title
+              Enter the details for input action
             </Paragraph>
           </Pane>
           <Pane padding={16}>
@@ -68,6 +91,20 @@ const TaskAction: FunctionComponent<TaskActionProps> = ({
               value={description}
               onChange={(e: any) => {
                 setBlockContent('description', e.target.value);
+              }}
+            />
+            <TextInputField
+              label="Button Text"
+              value={buttonText}
+              onChange={(e: any) => {
+                setBlockContent('buttonText', e.target.value);
+              }}
+            />
+            <TextInputField
+              label="Link"
+              value={link}
+              onChange={(e: any) => {
+                setBlockContent('link', e.target.value);
               }}
             />
           </Pane>

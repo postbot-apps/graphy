@@ -4,8 +4,11 @@ import { Button, Heading, Pane, Text, Spinner } from 'evergreen-ui';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { WorkflowItem } from './types';
 import getOptionsTemplate from './templates';
+import { useMutation } from '@apollo/client';
+import { ADD_RESPONSE, UPDATE_RESPONSE } from './query';
 
 interface SurveyProps {
+  id: String;
   workflow: WorkflowItem[];
 }
 
@@ -14,15 +17,22 @@ const computeOptions = (workflow, selectedBlock) => {
   return {
     ...selectedBlock,
     options: children.map((w) => ({
-      text: w.text,
+      // title: w.title,
+      // description: w.description,
+      option: w.option,
       id: w.id,
     })),
   };
 };
 
-const Survey: FunctionComponent<SurveyProps> = ({ workflow }: SurveyProps) => {
+const Survey: FunctionComponent<SurveyProps> = ({ id, workflow }: SurveyProps) => {
   const [selectedBlock, setSelectedBlock] = useState<WorkflowItem>(null);
   const [response, setResponse] = useState([]);
+  const [respId, setRespId] = useState(null);
+
+  const [addResponse] = useMutation(ADD_RESPONSE);
+  const [updateResponse] = useMutation(UPDATE_RESPONSE);
+
   useEffect(() => {
     if (!selectedBlock) {
       setSelectedBlock(workflow.find((w) => w.parent === -1));
@@ -31,14 +41,15 @@ const Survey: FunctionComponent<SurveyProps> = ({ workflow }: SurveyProps) => {
 
   const selectOption = (option: any) => {
     const nextBlock = workflow.find((w) => option.id === w.parent);
-    setResponse([...response, { id: selectedBlock.id, option: option.text }]);
+    setResponse([...response, { id: selectedBlock.id, option: option.option }]);
+    saveResponse({ id: selectedBlock.id, option: option.option });
     setSelectedBlock(nextBlock);
   };
 
   const saveInput = (option: any) => {
     const nextBlock = workflow.find((w) => selectedBlock.id === w.parent);
-    console.log(selectedBlock.id)
     setResponse([...response, { id: selectedBlock.id, option }]);
+    saveResponse({ id: selectedBlock.id, option });
     setSelectedBlock(nextBlock);
   };
 
@@ -47,7 +58,31 @@ const Survey: FunctionComponent<SurveyProps> = ({ workflow }: SurveyProps) => {
   }
 
   const block = computeOptions(workflow, selectedBlock);
-  console.log(response);
+
+  const saveResponse = async (newResp: any) => {
+    if (!respId) {
+      const { data } = await addResponse({
+        variables: {
+          response: [
+            {
+              workflowId: id,
+              date: new Date().toISOString(),
+              data: [newResp],
+            },
+          ],
+        },
+      });
+      setRespId(data.addResponse.response[0].id);
+    } else {
+      await updateResponse({
+        variables: {
+          id: respId,
+          updatedData: [newResp],
+        },
+      });
+    }
+  };
+
   return (
     <Pane
       height="100vh"
@@ -58,10 +93,10 @@ const Survey: FunctionComponent<SurveyProps> = ({ workflow }: SurveyProps) => {
       flexDirection="column"
     >
       <Heading size={800} marginTop="default">
-        {block.text}
+        {block.title}
       </Heading>
       <Text size={400} marginTop={10}>
-        {block.subText}
+        {block.description}
       </Text>
       {getOptionsTemplate({ block, selectOption, saveInput })}
       {/* <Pane marginTop={20}>

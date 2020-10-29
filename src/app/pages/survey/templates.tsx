@@ -9,12 +9,12 @@ const OptionsTemplate: FunctionComponent<any> = ({ block, selectOption }: any) =
       {block.options.map((option: any) => (
         <Button
           key={option.id}
-          marginRight={16}
+          marginRight={block.options.length > 1 ? 16 : 0}
           onClick={() => {
             selectOption(option);
           }}
         >
-          {option.text}
+          {option.option}
         </Button>
       ))}
     </Pane>
@@ -23,6 +23,16 @@ const OptionsTemplate: FunctionComponent<any> = ({ block, selectOption }: any) =
 
 const TextTemplate: FunctionComponent<any> = () => {
   return <Pane marginTop={20}></Pane>;
+};
+
+const LinkTemplate: FunctionComponent<any> = ({ block }: any) => {
+  return (
+    <Pane marginTop={20}>
+      <Button is="a" href={block.link} target="_blank">
+        {block.buttonText}
+      </Button>
+    </Pane>
+  );
 };
 
 const TextInputTemplate: FunctionComponent<any> = ({ block, saveInput }: any) => {
@@ -44,6 +54,7 @@ const TextInputTemplate: FunctionComponent<any> = ({ block, saveInput }: any) =>
 const templates = {
   options: OptionsTemplate,
   text: TextTemplate,
+  link: LinkTemplate,
   input: TextInputTemplate,
 };
 

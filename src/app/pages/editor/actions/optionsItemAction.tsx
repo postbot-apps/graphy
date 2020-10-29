@@ -25,6 +25,7 @@ const cardStyles = css`
 interface TaskActionProps {
   type: string;
   title?: string;
+  option?: string;
   description?: string;
   // eslint-disable-next-line no-unused-vars
   setBlockContent: (type: string, value: string) => void;
@@ -32,8 +33,7 @@ interface TaskActionProps {
 
 const TaskAction: FunctionComponent<TaskActionProps> = ({
   type,
-  title = 'Your task',
-  description = 'Your Description',
+  option,
   setBlockContent,
 }: TaskActionProps) => {
   const [showSideSheet, setShowSideSheet] = useState(false);
@@ -41,8 +41,16 @@ const TaskAction: FunctionComponent<TaskActionProps> = ({
     <Card css={cardStyles} onClick={() => setShowSideSheet(true)}>
       <BlockHead type={type} />
       <div className="card__content">
-        <div>{title}</div>
-        <div>{description}</div>
+        <Heading
+          size={400}
+          width="100%"
+          display="block"
+          textOverflow="ellipsis"
+          whiteSpace="nowrap"
+          overflow="hidden"
+        >
+          {option || 'No Option Name Added'}
+        </Heading>
       </div>
       <SideSheet
         isShown={showSideSheet}
@@ -50,24 +58,17 @@ const TaskAction: FunctionComponent<TaskActionProps> = ({
       >
         <Pane zIndex={1} flexShrink={0} elevation={0} backgroundColor="white">
           <Pane padding={16} borderBottom="muted">
-            <Heading size={600}>Title</Heading>
+            <Heading size={600}>Input Action</Heading>
             <Paragraph size={400} color="muted">
-              Optional description or sub title
+              Enter the details for input action
             </Paragraph>
           </Pane>
           <Pane padding={16}>
             <TextInputField
-              label="Title"
-              value={title}
+              label="Option"
+              value={option}
               onChange={(e: any) => {
-                setBlockContent('title', e.target.value);
-              }}
-            />
-            <TextInputField
-              label="Description"
-              value={description}
-              onChange={(e: any) => {
-                setBlockContent('description', e.target.value);
+                setBlockContent('option', e.target.value);
               }}
             />
           </Pane>

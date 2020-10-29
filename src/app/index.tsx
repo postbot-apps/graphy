@@ -14,7 +14,7 @@ import { Loading } from './shared/components/loading';
 const Workflows = React.lazy(() => import('./pages/dashboard/workflows'));
 const Editor = React.lazy(() => import('./pages/editor'));
 const HomePage = React.lazy(() => import('./pages/home'));
-const Flow = React.lazy(() => import('./pages/survey'));
+const Survey = React.lazy(() => import('./pages/survey'));
 const Responses = React.lazy(() => import('./pages/dashboard/responses'));
 const Response = React.lazy(() => import('./pages/dashboard/responses/response'));
 
@@ -26,8 +26,8 @@ const routes = [
     private: true,
   },
   {
-    path: 'test',
-    component: Flow,
+    path: 'survey/:id',
+    component: Survey,
     isExact: false,
     private: false,
   },

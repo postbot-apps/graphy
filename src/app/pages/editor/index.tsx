@@ -105,7 +105,7 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
       return rest;
     });
 
-    console.log(updatedBlocks);
+    console.log('Updated Bkokc', updatedBlocks);
 
     const updatedFirstBlockPos = firstBlockPos;
     delete updatedFirstBlockPos.__typename;
