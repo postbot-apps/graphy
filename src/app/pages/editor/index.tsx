@@ -4,13 +4,13 @@ import { css, jsx } from '@emotion/core';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { Loading } from '../../shared/components/loading';
 import { Navbar } from '../../shared/components/navbar';
-import { GET_WORKFLOW, UPDATE_WORKFLOW } from './query';
+import { GET_WORKFLOW, UPDATE_WORKFLOW, UPDATE_WORKFLOW_CLEAR } from './query';
 import ActionBar from './actionbar';
 import ReactFlowy from './react-flow';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { cloneDeep } from 'lodash';
-import { Position } from './react-flow/types';
+import { Block, Position } from './react-flow/types';
 
 interface EditorProps {
   match: {
@@ -37,6 +37,8 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
   const [workflow, setWorkflow] = useState(null);
   const [blocks, setBlocks] = useState([]);
   const [updateWorkflow] = useMutation(UPDATE_WORKFLOW);
+  const [updateClearWorkflow] = useMutation(UPDATE_WORKFLOW_CLEAR);
+
   //@ts-ignore
   const [firstBlockPos, setFirstBlockPos] = useState<Position>({});
 
@@ -59,6 +61,14 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
     }
     if (data && data.getWorkflow) {
       const updatedData = cloneDeep(data);
+      updatedData.getWorkflow.nodes = updatedData.getWorkflow.nodes.map(
+        (d: Block) => {
+          const temp = d['blockId'];
+          d['blockId'] = d['id'];
+          d['id'] = temp;
+          return d;
+        }
+      );
       setWorkflow(updatedData.getWorkflow);
       setBlocks(updatedData.getWorkflow.nodes);
       setFirstBlockPos(updatedData.getWorkflow.firstBlockPosition);
@@ -78,22 +88,76 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
     return <div>nothing here</div>;
   }
 
-  const onSave = () => {
-    console.log(blocks);
-    console.log(firstBlockPos);
-    const updatedBlocks = blocks.map((block) => {
+  const onSave = async () => {
+    const removableBlocks = workflow.nodes.map((block: Block) => {
       // eslint-disable-next-line no-unused-vars
       const { __typename, ...rest } = block;
+      const temp = rest['blockId'];
+      rest['blockId'] = rest['id'];
+      rest['id'] = temp;
       return rest;
     });
-    //@ts-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { __typename, ...rest } = firstBlockPos;
-    updateWorkflow({
+
+    const updatedBlocks = blocks.map((block) => {
+      // eslint-disable-next-line no-unused-vars
+      const { __typename, id, ...rest } = block;
+      rest['blockId'] = id;
+      return rest;
+    });
+
+    console.log(updatedBlocks);
+
+    const updatedFirstBlockPos = firstBlockPos;
+    delete updatedFirstBlockPos.__typename;
+
+    const removeNodes = {
+      nodes: removableBlocks,
+    };
+
+    await updateClearWorkflow({
       variables: {
         id: id,
-        workflow: updatedBlocks,
-        firstBlockPos: rest,
+        removenodes: removeNodes,
+      },
+    });
+    await updateWorkflow({
+      variables: {
+        id: id,
+        updatedNodes: updatedBlocks,
+        firstBlockPos: updatedFirstBlockPos,
+      },
+      refetchQueries: [
+        {
+          query: GET_WORKFLOW,
+          variables: {
+            id,
+          },
+        },
+      ],
+    });
+  };
+
+  const onDiscard = () => {
+    setBlocks(workflow.nodes);
+    setFirstBlockPos(workflow.firstBlockPosition);
+  };
+
+  const onClear = async () => {
+    const removableBlocks = workflow.nodes.map((block: Block) => {
+      // eslint-disable-next-line no-unused-vars
+      const { __typename, ...rest } = block;
+      const temp = rest['blockId'];
+      rest['blockId'] = rest['id'];
+      rest['id'] = temp;
+      return rest;
+    });
+    const removeNodes = {
+      nodes: removableBlocks,
+    };
+    await updateClearWorkflow({
+      variables: {
+        id: id,
+        removenodes: removeNodes,
       },
       refetchQueries: [
         {
@@ -112,7 +176,8 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
         title={workflow.title}
         description={workflow.description}
         onSave={onSave}
-        onDiscard={() => {}}
+        onDiscard={onDiscard}
+        onClear={onClear}
       />
       <div css={editorStyles}>
         <DndProvider backend={HTML5Backend}>

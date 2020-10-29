@@ -16,6 +16,7 @@ export const GET_WORKFLOW = gql`
         description
         height
         id
+        blockId
         name
         parent
         width
@@ -24,16 +25,43 @@ export const GET_WORKFLOW = gql`
   }
 `;
 
+export const UPDATE_WORKFLOW_CLEAR = gql`
+  mutation UpdateWorkflow($id: ID!, $removenodes: WorkflowPatch!) {
+    updateWorkflow(input: { filter: { id: [$id] }, remove: $removenodes }) {
+      workflow {
+        title
+        type
+        description
+        firstBlockPosition {
+          x
+          y
+        }
+        nodes {
+          type
+          title
+          description
+          height
+          id
+          blockId
+          name
+          parent
+          width
+        }
+      }
+    }
+  }
+`;
+
 export const UPDATE_WORKFLOW = gql`
   mutation UpdateWorkflow(
     $id: ID!
-    $workflow: [NodeRef!]
+    $updatedNodes: [NodeRef!]
     $firstBlockPos: PositionRef!
   ) {
     updateWorkflow(
       input: {
         filter: { id: [$id] }
-        set: { nodes: $workflow, firstBlockPosition: $firstBlockPos }
+        set: { nodes: $updatedNodes, firstBlockPosition: $firstBlockPos }
       }
     ) {
       workflow {
@@ -50,6 +78,7 @@ export const UPDATE_WORKFLOW = gql`
           description
           height
           id
+          blockId
           name
           parent
           width

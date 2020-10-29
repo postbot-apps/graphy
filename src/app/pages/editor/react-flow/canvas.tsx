@@ -52,6 +52,7 @@ export const Canvas: React.FC<CanvasProps> = ({
     }
   );
 
+  console.log(firstBlockPos);
   const blocksWithPos = computeAllBlockPos(blocks, firstBlockPos, padding);
 
   const minOffsetLeft = Math.min(...blocksWithPos.map((b) => b.x));

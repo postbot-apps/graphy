@@ -145,7 +145,7 @@ export const ReactFlowy: React.FC<FlowyProps> = ({
         blocks={blocks}
         addNewBlock={addNewBlock}
         addFirstBlock={addFirstBlock}
-        padding={{ x: 20, y: 40 }}
+        padding={{ x: 20, y: 80 }}
         changeParent={changeParent}
         templates={BlocksTemplates}
         //@ts-ignore

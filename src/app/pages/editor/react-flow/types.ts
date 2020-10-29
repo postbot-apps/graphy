@@ -1,4 +1,5 @@
 export interface Block {
+  __typename?: string;
   parent: number;
   id?: number;
   name: string;
@@ -14,9 +15,11 @@ export interface Block {
     x: number;
     y: number;
   };
+  blockId?: number;
 }
 
 export interface Position {
+  __typename?: string;
   x: number;
   y: number;
 }
