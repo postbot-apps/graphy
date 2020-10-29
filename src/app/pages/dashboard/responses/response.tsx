@@ -1,10 +1,13 @@
 /**@jsx jsx */
+import { useQuery } from '@apollo/client';
 import { jsx } from '@emotion/core';
 import { Heading, Pane, Table } from 'evergreen-ui';
 import React from 'react';
 import { FunctionComponent } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Loading } from '../../../shared/components/loading';
 import Container from '../container';
+import { GET_RESPONSE } from './query';
 
 const workflow = [
   {
@@ -85,7 +88,20 @@ const response = [
   },
 ];
 
-const ResponsesPage: FunctionComponent<any> = () => {
+const ResponsesPage: FunctionComponent<any> = ({ match }: any) => {
+  const id = match.params.id;
+
+  const { loading, error, data } = useQuery(GET_RESPONSE, {
+    variables: {
+      id,
+    },
+  });
+
+  if (loading) {
+    return <Loading />;
+  }
+  const response = data.getResponse.data;
+
   return (
     <Container>
       <Pane width="100%">

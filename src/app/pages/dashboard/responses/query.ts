@@ -16,3 +16,16 @@ export const GET_RESPONSES = gql`
     }
   }
 `;
+
+export const GET_RESPONSE = gql`
+  query GetResponse($id: ID!) {
+    getResponse(id: $id) {
+      id
+      date
+      data {
+        id
+        option
+      }
+    }
+  }
+`;
