@@ -1,6 +1,6 @@
 /**@jsx jsx */
 import { jsx } from '@emotion/core';
-import { Pane, Table } from 'evergreen-ui';
+import { Table } from 'evergreen-ui';
 import { FunctionComponent } from 'react';
 import { useHistory } from 'react-router-dom';
 

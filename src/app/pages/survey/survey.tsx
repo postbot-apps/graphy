@@ -1,6 +1,6 @@
 /**@jsx jsx */
 import { jsx } from '@emotion/core';
-import { Button, Heading, Pane, Text, Spinner } from 'evergreen-ui';
+import { Heading, Pane, Text, Spinner } from 'evergreen-ui';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { WorkflowItem } from './types';
 import getOptionsTemplate from './templates';
@@ -12,11 +12,11 @@ interface SurveyProps {
   workflow: WorkflowItem[];
 }
 
-const computeOptions = (workflow, selectedBlock) => {
-  const children = workflow.filter((w) => w.parent === selectedBlock.id);
+const computeOptions = (workflow: any, selectedBlock: any) => {
+  const children = workflow.filter((w: any) => w.parent === selectedBlock.id);
   return {
     ...selectedBlock,
-    options: children.map((w) => ({
+    options: children.map((w: any) => ({
       // title: w.title,
       // description: w.description,
       option: w.option,
