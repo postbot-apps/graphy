@@ -1,5 +1,10 @@
 import React from 'react';
 import TaskAction from '../actions/taskAction';
+import InputAction from '../actions/inputAction';
+import OptionsAction from '../actions/optionsAction';
+import OptionsItemAction from '../actions/optionsItemAction';
+import TextItemAction from '../actions/textItemAction';
+import LinkItemAction from '../actions/linkItemAction';
 
 interface BlockTemplateProps {
   block: any;
@@ -83,10 +88,83 @@ export const WarningBlockTemplate: React.FC<BlockTemplateProps> = ({
   );
 };
 
+export const InputBlockTemplate: React.FC<BlockTemplateProps> = ({
+  block = {},
+  setBlockContent,
+}: BlockTemplateProps) => {
+  return (
+    <InputAction
+      type={block.type}
+      title={block.title}
+      description={block.description}
+      placeholder={block.placeholder}
+      setBlockContent={setBlockContent}
+    />
+  );
+};
+
+export const OptionsBlockTemplate: React.FC<BlockTemplateProps> = ({
+  block = {},
+  setBlockContent,
+}: BlockTemplateProps) => {
+  return (
+    <OptionsAction
+      type={block.type}
+      title={block.title}
+      description={block.description}
+      setBlockContent={setBlockContent}
+    />
+  );
+};
+
+export const OptionsItemBlockTemplate: React.FC<BlockTemplateProps> = ({
+  block = {},
+  setBlockContent,
+}: BlockTemplateProps) => {
+  return (
+    <OptionsItemAction
+      type={block.type}
+      option={block.option}
+      setBlockContent={setBlockContent}
+    />
+  );
+};
+
+export const LinkItemBlockTemplate: React.FC<BlockTemplateProps> = ({
+  block = {},
+  setBlockContent,
+}: BlockTemplateProps) => {
+  return (
+    <LinkItemAction
+      type={block.type}
+      title={block.title}
+      description={block.description}
+      link={block.link}
+      buttonText={block.buttonText}
+      setBlockContent={setBlockContent}
+    />
+  );
+};
+
+export const TextItemBlockTemplate: React.FC<BlockTemplateProps> = ({
+  block = {},
+  setBlockContent,
+}: BlockTemplateProps) => {
+  return (
+    <TextItemAction
+      type={block.type}
+      title={block.title}
+      description={block.description}
+      setBlockContent={setBlockContent}
+    />
+  );
+};
+
 export default {
-  query: QueryBlockTemplate,
-  action: ActionBlockTemplate,
-  success: SuccessBlockTemplate,
-  warning: WarningBlockTemplate,
-  error: ErrorBlockTemplate,
+  input: InputBlockTemplate,
+  options: OptionsBlockTemplate,
+  optionsItem: OptionsItemBlockTemplate,
+  text: TextItemBlockTemplate,
+  link: LinkItemBlockTemplate,
+  checkbox: QueryBlockTemplate,
 };

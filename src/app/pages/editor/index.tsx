@@ -9,7 +9,7 @@ import ActionBar from './actionbar';
 import ReactFlowy from './react-flow';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, sortBy } from 'lodash';
 import { Block, Position } from './react-flow/types';
 
 interface EditorProps {
@@ -105,7 +105,7 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
       return rest;
     });
 
-    console.log(updatedBlocks);
+    console.log('Updated Bkokc', updatedBlocks);
 
     const updatedFirstBlockPos = firstBlockPos;
     delete updatedFirstBlockPos.__typename;
@@ -183,7 +183,7 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
         <DndProvider backend={HTML5Backend}>
           <ActionBar />
           <ReactFlowy
-            blocks={blocks}
+            blocks={sortBy(blocks, ['parent', 'id'])}
             setBlocks={setBlocks}
             firstBlockPos={firstBlockPos}
             setFirstBlockPos={setFirstBlockPos}

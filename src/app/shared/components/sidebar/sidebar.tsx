@@ -1,8 +1,15 @@
 /**@jsx jsx */
 import { useAuth0 } from '@auth0/auth0-react';
 import { jsx, css } from '@emotion/core';
-import { IconButton, HomeIcon, SearchIcon, LogOutIcon } from 'evergreen-ui';
+import {
+  IconButton,
+  HomeIcon,
+  SearchIcon,
+  LogOutIcon,
+  PanelTableIcon,
+} from 'evergreen-ui';
 import { FunctionComponent } from 'react';
+import { useHistory } from 'react-router-dom';
 import Logo from '../../../../assets/images/logo.png';
 
 const sidebarStyles = css`
@@ -52,13 +59,14 @@ interface SideBarProps {}
 export const SideBar: FunctionComponent<SideBarProps> = () => {
   const { isAuthenticated } = useAuth0();
   const { logout } = useAuth0();
+  const history = useHistory();
 
   return (
     isAuthenticated && (
       <div css={sidebarStyles}>
         <nav css={navbarStyles} role="navigation" aria-label="sidebar">
           <div>
-            <img width={50} src={Logo} alt="logo" />
+            <img width={50} height={50} src={Logo} alt="logo" />
             <div css={navIconStyles}>
               <IconButton
                 css={iconButtonStyles}
@@ -66,12 +74,14 @@ export const SideBar: FunctionComponent<SideBarProps> = () => {
                 color="white"
                 height={50}
                 icon={HomeIcon}
+                onClick={() => history.push('/')}
               />
               <IconButton
                 css={iconButtonStyles}
                 appearance="minimal"
                 height={50}
-                icon={SearchIcon}
+                icon={PanelTableIcon}
+                onClick={() => history.push('/responses')}
               />
             </div>
           </div>
