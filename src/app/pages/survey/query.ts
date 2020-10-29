@@ -32,7 +32,6 @@ export const ADD_RESPONSE = gql`
     addResponse(input: $response) {
       response {
         id
-        workflowId
         date
         data {
           id
@@ -48,7 +47,6 @@ export const UPDATE_RESPONSE = gql`
     updateResponse(input: { filter: { id: [$id] }, set: { data: $updatedData } }) {
       response {
         id
-        workflowId
         date
         data {
           id

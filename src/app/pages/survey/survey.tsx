@@ -65,7 +65,7 @@ const Survey: FunctionComponent<SurveyProps> = ({ id, workflow }: SurveyProps) =
         variables: {
           response: [
             {
-              workflowId: id,
+              workflow: { id },
               date: new Date().toISOString(),
               data: [newResp],
             },
