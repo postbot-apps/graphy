@@ -9,6 +9,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 interface WorkflowModalProps {
   isShown: boolean;
   onClose: () => void;
+  // eslint-disable-next-line no-unused-vars
+  setRedirect: (workflowId: string) => void;
 }
 
 const workflowTypes: Record<string, string> = {
@@ -21,6 +23,7 @@ const workflowTypes: Record<string, string> = {
 const WorkflowModal: FunctionComponent<WorkflowModalProps> = ({
   isShown,
   onClose,
+  setRedirect,
 }: WorkflowModalProps) => {
   const [workflowName, setWorkflowName] = useState(null);
   const [workflowDescription, setWorkflowDescription] = useState('');
@@ -30,7 +33,8 @@ const WorkflowModal: FunctionComponent<WorkflowModalProps> = ({
   const { user } = useAuth0();
 
   const [addWorkflow] = useMutation(ADD_WORKFLOW, {
-    onCompleted: () => {
+    onCompleted: (data: any) => {
+      setRedirect(data.addWorkflow.workflow[0].id);
       setIsConfirmLoading(false);
       onClose();
     },
