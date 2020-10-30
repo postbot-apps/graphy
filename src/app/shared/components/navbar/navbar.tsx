@@ -1,6 +1,6 @@
 /**@jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { Button, BackButton, SegmentedControl } from 'evergreen-ui';
+import { Button, BackButton, SegmentedControl, Dialog } from 'evergreen-ui';
 import { FunctionComponent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -37,6 +37,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   onClear,
 }: NavbarProps) => {
   const [optionValue, setOptionValue] = useState('diagram');
+  const [showClearModal, setShowClearModal] = useState(false);
 
   const history = useHistory();
 
@@ -44,6 +45,11 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
     { label: 'Diagram View', value: 'diagram' },
     { label: 'Code View', value: 'code' },
   ];
+
+  const onClearData = () => {
+    setShowClearModal(false);
+    onClear();
+  };
 
   return (
     <nav role="navigation" css={navbarStyles}>
@@ -63,7 +69,12 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
         />
       </div>
       <div className="navbar__actions">
-        <Button marginRight={10} onClick={onClear}>
+        <Button
+          intent="danger"
+          appearance="primary"
+          marginRight={10}
+          onClick={() => setShowClearModal(true)}
+        >
           Clear
         </Button>
         <Button marginRight={10} onClick={onDiscard}>
@@ -73,6 +84,16 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
           Save
         </Button>
       </div>
+      <Dialog
+        isShown={showClearModal}
+        title="Danger"
+        onConfirm={onClearData}
+        onCloseComplete={() => setShowClearModal(false)}
+        confirmLabel="Clear"
+      >
+        Are you sure want to clear the workflow. This will remove the workflow data
+        from the database. This action is irreversible
+      </Dialog>
     </nav>
   );
 };
