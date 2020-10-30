@@ -4,6 +4,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { css, jsx } from '@emotion/core';
 import { Button } from 'evergreen-ui';
 import { FunctionComponent, useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import { Loading } from '../../../shared/components/loading';
 import Container from '../container';
 import { GET_WORKFLOWS } from './query';
 import WorkflowCard from './workflowCard';
@@ -24,6 +26,16 @@ const headerStyles = css`
   }
 `;
 
+export const newButtonStyles = css`
+  background: #09143e;
+  color: #fff;
+  transition: 0.5s ease;
+  &:hover {
+    background: #0a1233 !important;
+    transition: 0.5s ease;
+  }
+`;
+
 const workflowsContainer = css`
   margin-top: 40px;
   display: grid;
@@ -36,6 +48,7 @@ interface WorkflowsProps {}
 const Workflows: FunctionComponent<WorkflowsProps> = () => {
   const [workflowsData, setWorkflowsData] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
+  const [redirect, setRedirect] = useState(null);
   const { user } = useAuth0();
 
   const { loading, error, data } = useQuery(GET_WORKFLOWS, {
@@ -60,16 +73,24 @@ const Workflows: FunctionComponent<WorkflowsProps> = () => {
   useEffect(() => {
     getData();
   }, [data, user]);
+  if (redirect) {
+    return <Redirect to={`/workflow/${redirect}`} />;
+  }
 
   return (
     <Container>
       <div css={workflowStyles}>
         <div css={headerStyles}>
           <h2 className="header__heading">Recent Workflows</h2>
-          <Button onClick={() => setShowCreateModal(true)} appearance="primary">
+          <Button
+            css={newButtonStyles}
+            onClick={() => setShowCreateModal(true)}
+            appearance="primary"
+          >
             Create New
           </Button>
         </div>
+        {loading && <Loading />}
         <div css={workflowsContainer}>
           {workflowsData.map((data) => (
             <WorkflowCard
@@ -82,6 +103,7 @@ const Workflows: FunctionComponent<WorkflowsProps> = () => {
           ))}
         </div>
         <WorkflowModal
+          setRedirect={(id: string) => setRedirect(id)}
           isShown={showCreateModal}
           onClose={() => setShowCreateModal(false)}
         />
