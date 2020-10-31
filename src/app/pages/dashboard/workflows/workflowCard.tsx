@@ -1,12 +1,12 @@
 /**@jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { Card, ChatIcon, DatabaseIcon, DiagramTreeIcon } from 'evergreen-ui';
+import { Card, DiagramTreeIcon, FormIcon, HelpIcon } from 'evergreen-ui';
 import { FunctionComponent, ReactNode } from 'react';
 import { useHistory } from 'react-router-dom';
 
 const workflowTypeMap: Record<string, ReactNode> = {
-  Database: <DatabaseIcon size={24} />,
-  Chat: <ChatIcon size={24} />,
+  Survey: <FormIcon size={24} />,
+  FAQ: <HelpIcon size={24} />,
   Diagram: <DiagramTreeIcon size={24} />,
 };
 
