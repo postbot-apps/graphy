@@ -2,12 +2,7 @@
 import { css, jsx } from '@emotion/core';
 import {
   Icon,
-  EyeOpenIcon,
   DragHandleVerticalIcon,
-  BuildIcon,
-  CrownIcon,
-  WarningSignIcon,
-  ErrorIcon,
   DiagramTreeIcon,
   FormIcon,
   InboxIcon,

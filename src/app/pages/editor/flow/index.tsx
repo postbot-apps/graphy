@@ -15,14 +15,6 @@ const flowyStyles = css`
     background: white;
   }
 
-  /* .dropzone {
-    width: 200px;
-    height: 50px;
-    background: blueviolet;
-    margin-bottom: 10px;
-    padding: 10px;
-  } */
-
   #canvas {
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAH0lEQVQoU2NkYGD4z8DAwMhAABBUANM/qhBvSBIdPACgdAELiyknowAAAABJRU5ErkJggg==);
     height: calc(100vh - 64px);
