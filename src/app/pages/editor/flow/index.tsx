@@ -89,9 +89,9 @@ const flowyStyles = css`
 
 interface FlowyProps {
   blocks: Block[];
-  setBlocks: Dispatch<SetStateAction<Block[]>>;
+  setBlocks?: Dispatch<SetStateAction<Block[]>>;
   firstBlockPos: Position;
-  setFirstBlockPos: Dispatch<SetStateAction<Position>>;
+  setFirstBlockPos?: Dispatch<SetStateAction<Position>>;
 }
 
 export const ReactFlowy: React.FC<FlowyProps> = ({

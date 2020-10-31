@@ -79,7 +79,6 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
       setWorkflow(updatedData.getWorkflow);
       setBlocks(updatedData.getWorkflow.nodes);
       setFirstBlockPos(updatedData.getWorkflow.firstBlockPosition);
-      console.log(updatedData.getWorkflow.nodes);
     }
   };
 
@@ -111,8 +110,6 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
       rest['blockId'] = id;
       return rest;
     });
-
-    console.log('Updated Bkokc', updatedBlocks);
 
     const updatedFirstBlockPos = firstBlockPos;
     delete updatedFirstBlockPos.__typename;
@@ -179,6 +176,8 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
       ],
     });
   };
+
+  console.log(blocks);
 
   return (
     <div>

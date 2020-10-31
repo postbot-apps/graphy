@@ -15,26 +15,22 @@ interface WorkflowModalProps {
 
 interface WorkflowType {
   name: string;
-  disabled: boolean;
   wip?: boolean;
 }
 
 export const workflowTypes: Record<string, WorkflowType> = {
   survey: {
     name: 'Survey',
-    disabled: false,
-  },
-  faq: {
-    name: 'FAQ',
-    disabled: false,
   },
   diagram: {
     name: 'Diagram',
-    disabled: false,
+  },
+  faq: {
+    name: 'FAQ',
+    wip: true,
   },
   chat: {
     name: 'Chat',
-    disabled: false,
     wip: true,
   },
 };

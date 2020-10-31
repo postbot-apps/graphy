@@ -26,6 +26,16 @@ export const GET_RESPONSE = gql`
         id
         option
       }
+      workflow {
+        id
+        nodes {
+          id
+          blockId
+          title
+          type
+          parent
+        }
+      }
     }
   }
 `;
