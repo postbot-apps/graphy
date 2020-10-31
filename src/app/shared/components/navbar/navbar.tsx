@@ -5,9 +5,9 @@ import {
   BackButton,
   Dialog,
   TextInput,
-  IconButton,
-  LinkIcon,
+  Text,
   toaster,
+  Tooltip,
 } from 'evergreen-ui';
 import { FunctionComponent, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -30,6 +30,11 @@ const navbarStyles = css`
   .navbar__actions {
     display: flex;
   }
+
+  .navbar__options {
+    align-items: center;
+    display: flex;
+  }
 `;
 
 interface NavbarProps {
@@ -40,6 +45,8 @@ interface NavbarProps {
   onClear: () => void;
   id: string;
 }
+
+const APP_ENDPOINT: string = process.env.APP_ENDPOINT;
 
 export const Navbar: FunctionComponent<NavbarProps> = ({
   title,
@@ -59,10 +66,9 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
     onClear();
   };
 
-  const copyToClipboard = (e: any) => {
+  const copyToClipboard = () => {
     inputRef.current.select();
     document.execCommand('copy');
-    e.target.focus();
     toaster.success('Url copied to clipboard', {
       duration: 1,
     });
@@ -77,24 +83,32 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
           <p className="navbar__title-text-description">{description}</p>
         </div>
       </div>
-      {/* <div className="navbar__options">
-        <SegmentedControl
-          width={240}
-          options={options}
-          value={optionValue}
-          onChange={(value) => setOptionValue(value as string)}
-        />
-      </div> */}
+      <div className="navbar__options">
+        <Text fontWeight="bold" marginRight={10}>
+          Survey URL :
+        </Text>
+        <Tooltip content="Click to copy">
+          <div onClick={copyToClipboard}>
+            <TextInput
+              ref={inputRef}
+              width={300}
+              readOnly
+              value={`${APP_ENDPOINT}/survey/${id}`}
+              name="text-input-name"
+              placeholder="Text input placeholder..."
+            />
+          </div>
+        </Tooltip>
+        <Button
+          is="a"
+          marginLeft={10}
+          target="_blank"
+          href={`${APP_ENDPOINT}/survey/${id}`}
+        >
+          Preview
+        </Button>
+      </div>
       <div className="navbar__actions">
-        <TextInput
-          ref={inputRef}
-          width={200}
-          readOnly
-          value={`https://loalhost:8000/survey/${id}`}
-          name="text-input-name"
-          placeholder="Text input placeholder..."
-        />
-        <IconButton icon={LinkIcon} onClick={copyToClipboard} marginRight={30} />
         <Button
           intent="danger"
           appearance="primary"

@@ -2,7 +2,7 @@
 import { css, jsx } from '@emotion/core';
 import { Icon } from 'evergreen-ui';
 import { FunctionComponent } from 'react';
-import { blockData } from '../react-flow/dragBlock';
+import { blockData } from '../flow/dragBlock';
 
 const blockHeadStyles = css`
   border-bottom: 1px solid #e9e9ef;

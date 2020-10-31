@@ -6,11 +6,11 @@ import { Loading } from '../../shared/components/loading';
 import { Navbar } from '../../shared/components/navbar';
 import { GET_WORKFLOW, UPDATE_WORKFLOW, UPDATE_WORKFLOW_CLEAR } from './query';
 import ActionBar from './actionbar';
-import ReactFlowy from './react-flow';
+import ReactFlowy from './flow';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { cloneDeep, sortBy } from 'lodash';
-import { Block, Position } from './react-flow/types';
+import { Block, Position } from './flow/types';
 import { toaster } from 'evergreen-ui';
 
 interface EditorProps {

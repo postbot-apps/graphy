@@ -4,7 +4,7 @@ import { cloneDeep } from '@apollo/client/utilities';
 import { jsx } from '@emotion/core';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { Loading } from '../../shared/components/loading';
-import { Block } from '../editor/react-flow/types';
+import { Block } from '../editor/flow/types';
 import { GET_WORKFLOW } from './query';
 import Survey from './survey';
 
