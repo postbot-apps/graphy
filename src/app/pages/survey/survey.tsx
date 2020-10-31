@@ -1,11 +1,12 @@
 /**@jsx jsx */
 import { jsx } from '@emotion/core';
-import { Heading, Pane, Text, Spinner } from 'evergreen-ui';
+import { Heading, Pane, Text } from 'evergreen-ui';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { WorkflowItem } from './types';
 import getOptionsTemplate from './templates';
 import { useMutation } from '@apollo/client';
 import { ADD_RESPONSE, UPDATE_RESPONSE } from './query';
+import { Loading } from '../../shared/components/loading';
 
 interface SurveyProps {
   id: String;
@@ -54,7 +55,7 @@ const Survey: FunctionComponent<SurveyProps> = ({ id, workflow }: SurveyProps) =
   };
 
   if (!selectedBlock) {
-    return <Spinner />;
+    return <Loading />;
   }
 
   const block = computeOptions(workflow, selectedBlock);

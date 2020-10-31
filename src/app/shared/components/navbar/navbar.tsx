@@ -44,6 +44,7 @@ interface NavbarProps {
   onDiscard: () => void;
   onClear: () => void;
   id: string;
+  type: string;
 }
 
 const APP_ENDPOINT: string = process.env.APP_ENDPOINT;
@@ -55,6 +56,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   onDiscard,
   onClear,
   id,
+  type,
 }: NavbarProps) => {
   const [showClearModal, setShowClearModal] = useState(false);
   const inputRef = useRef(null);
@@ -74,6 +76,11 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
     });
   };
 
+  const PREVIEW_LINK =
+    type === 'Diagram'
+      ? `${APP_ENDPOINT}/preview/${id}`
+      : `${APP_ENDPOINT}/survey/${id}`;
+
   return (
     <nav role="navigation" css={navbarStyles}>
       <div className="navbar__title">
@@ -85,7 +92,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
       </div>
       <div className="navbar__options">
         <Text fontWeight="bold" marginRight={10}>
-          Survey URL :
+          {type} URL :
         </Text>
         <Tooltip content="Click to copy">
           <div onClick={copyToClipboard}>
@@ -93,18 +100,13 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
               ref={inputRef}
               width={300}
               readOnly
-              value={`${APP_ENDPOINT}/survey/${id}`}
+              value={PREVIEW_LINK}
               name="text-input-name"
               placeholder="Text input placeholder..."
             />
           </div>
         </Tooltip>
-        <Button
-          is="a"
-          marginLeft={10}
-          target="_blank"
-          href={`${APP_ENDPOINT}/survey/${id}`}
-        >
+        <Button is="a" marginLeft={10} target="_blank" href={PREVIEW_LINK}>
           Preview
         </Button>
       </div>

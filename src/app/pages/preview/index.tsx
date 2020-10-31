@@ -11,6 +11,7 @@ import { ReactFlowy } from '../editor/flow';
 import { Block, Position } from '../editor/flow/types';
 import { GET_WORKFLOW } from './query';
 import { Text } from 'evergreen-ui';
+import { NotFoundPage } from '../../shared/components/notfound';
 
 interface PreviewPageProps {}
 
@@ -50,6 +51,7 @@ const PreviewPage: FunctionComponent<PreviewPageProps> = ({
 }: PreviewPageProps) => {
   const [workflow, setWorkflow] = useState([]);
   const [firstBlockPos, setFirstBlockPos] = useState<Position>();
+  const [workflowType, setWorkflowType] = useState(null);
 
   const id = match.params.id;
 
@@ -79,6 +81,7 @@ const PreviewPage: FunctionComponent<PreviewPageProps> = ({
         }
       );
       setWorkflow(updatedData.getWorkflow.nodes);
+      setWorkflowType(updatedData.getWorkflow.type);
       setFirstBlockPos(updatedData.getWorkflow.firstBlockPosition);
     }
   };
@@ -86,8 +89,12 @@ const PreviewPage: FunctionComponent<PreviewPageProps> = ({
   useEffect(() => {
     getWorkflow();
   }, [data]);
-  if (workflow.length <= 0) {
+  if (loading) {
     return <Loading />;
+  }
+
+  if (workflowType && workflowType !== 'Survey') {
+    return <NotFoundPage />;
   }
 
   return (

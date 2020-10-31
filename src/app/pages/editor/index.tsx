@@ -188,6 +188,7 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
         onDiscard={onDiscard}
         onClear={onClear}
         id={id}
+        type={workflow.type}
       />
       <div css={editorStyles}>
         <DndProvider backend={HTML5Backend}>
