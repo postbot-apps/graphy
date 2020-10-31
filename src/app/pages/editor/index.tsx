@@ -11,6 +11,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { cloneDeep, sortBy } from 'lodash';
 import { Block, Position } from './react-flow/types';
+import { toaster } from 'evergreen-ui';
 
 interface EditorProps {
   match: {
@@ -36,7 +37,13 @@ const editorStyles = css`
 const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
   const [workflow, setWorkflow] = useState(null);
   const [blocks, setBlocks] = useState([]);
-  const [updateWorkflow] = useMutation(UPDATE_WORKFLOW);
+  const [updateWorkflow] = useMutation(UPDATE_WORKFLOW, {
+    onCompleted: () => {
+      toaster.success('Workflow saved successfully', {
+        duration: 2,
+      });
+    },
+  });
   const [updateClearWorkflow] = useMutation(UPDATE_WORKFLOW_CLEAR);
 
   //@ts-ignore
@@ -140,6 +147,9 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
   const onDiscard = () => {
     setBlocks(workflow.nodes);
     setFirstBlockPos(workflow.firstBlockPosition);
+    toaster.success('Workflow discarded', {
+      duration: 2,
+    });
   };
 
   const onClear = async () => {
@@ -178,6 +188,7 @@ const Editor: FunctionComponent<EditorProps> = ({ match }: EditorProps) => {
         onSave={onSave}
         onDiscard={onDiscard}
         onClear={onClear}
+        id={id}
       />
       <div css={editorStyles}>
         <DndProvider backend={HTML5Backend}>
