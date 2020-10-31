@@ -2,8 +2,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/link-context';
 import { createHttpLink } from 'apollo-link-http';
 
-const GRAPHQL_ENDPOINT: string =
-  'https://graphy.us-west-2.aws.cloud.dgraph.io/graphql';
+const GRAPHQL_ENDPOINT: string = process.env.SLASH_GRAPHQL_URL;
 
 export const createApolloClient = (getIdTokenClaims: any) => {
   if (getIdTokenClaims == null) {
