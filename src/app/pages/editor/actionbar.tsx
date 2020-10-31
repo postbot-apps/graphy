@@ -6,7 +6,7 @@ import {
   DoubleChevronRightIcon,
 } from 'evergreen-ui';
 import { FunctionComponent, useState } from 'react';
-import DragBlock from './react-flow/dragBlock';
+import DragBlock from './flow/dragBlock';
 
 const actionBarStyles = (shown: boolean) => css`
   z-index: 10;

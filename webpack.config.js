@@ -40,10 +40,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: './index.html',
+      favicon: 'src/assets/images/logo.png',
     }),
-    new Dotenv({
-      safe: true,
-    }),
+    new Dotenv(),
   ],
   devServer: {
     historyApiFallback: true,

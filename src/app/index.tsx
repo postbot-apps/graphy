@@ -15,6 +15,7 @@ const Workflows = React.lazy(() => import('./pages/dashboard/workflows'));
 const Editor = React.lazy(() => import('./pages/editor'));
 const HomePage = React.lazy(() => import('./pages/home'));
 const Survey = React.lazy(() => import('./pages/survey'));
+const Preview = React.lazy(() => import('./pages/preview'));
 const Responses = React.lazy(() => import('./pages/dashboard/responses'));
 const Response = React.lazy(() => import('./pages/dashboard/responses/response'));
 
@@ -28,6 +29,12 @@ const routes = [
   {
     path: 'survey/:id',
     component: Survey,
+    isExact: false,
+    private: false,
+  },
+  {
+    path: 'preview/:id',
+    component: Preview,
     isExact: false,
     private: false,
   },

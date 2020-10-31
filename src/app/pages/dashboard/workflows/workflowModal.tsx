@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core';
 import { Dialog, SelectField, TextInputField } from 'evergreen-ui';
 import { FunctionComponent, useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { ADD_WORKFLOW, GET_WORKFLOWS } from './query';
+import { ADD_WORKFLOW } from './query';
 import { useAuth0 } from '@auth0/auth0-react';
 
 interface WorkflowModalProps {
@@ -13,11 +13,26 @@ interface WorkflowModalProps {
   setRedirect: (workflowId: string) => void;
 }
 
-const workflowTypes: Record<string, string> = {
-  default: 'Default',
-  database: 'Database',
-  chat: 'Chat',
-  diagram: 'Diagram',
+interface WorkflowType {
+  name: string;
+  wip?: boolean;
+}
+
+export const workflowTypes: Record<string, WorkflowType> = {
+  survey: {
+    name: 'Survey',
+  },
+  diagram: {
+    name: 'Diagram',
+  },
+  faq: {
+    name: 'FAQ',
+    wip: true,
+  },
+  chat: {
+    name: 'Chat',
+    wip: true,
+  },
 };
 
 const WorkflowModal: FunctionComponent<WorkflowModalProps> = ({
@@ -27,7 +42,7 @@ const WorkflowModal: FunctionComponent<WorkflowModalProps> = ({
 }: WorkflowModalProps) => {
   const [workflowName, setWorkflowName] = useState(null);
   const [workflowDescription, setWorkflowDescription] = useState('');
-  const [workflowType, setWorkflowType] = useState(workflowTypes.default);
+  const [workflowType, setWorkflowType] = useState(workflowTypes.survey.name);
   const [isConfirmLoading, setIsConfirmLoading] = useState(false);
 
   const { user } = useAuth0();
@@ -35,8 +50,6 @@ const WorkflowModal: FunctionComponent<WorkflowModalProps> = ({
   const [addWorkflow] = useMutation(ADD_WORKFLOW, {
     onCompleted: (data: any) => {
       setRedirect(data.addWorkflow.workflow[0].id);
-      setIsConfirmLoading(false);
-      onClose();
     },
   });
 
@@ -54,14 +67,6 @@ const WorkflowModal: FunctionComponent<WorkflowModalProps> = ({
             },
           ],
         },
-        refetchQueries: [
-          {
-            query: GET_WORKFLOWS,
-            variables: {
-              email: user.email,
-            },
-          },
-        ],
       });
     }
   };
@@ -89,8 +94,8 @@ const WorkflowModal: FunctionComponent<WorkflowModalProps> = ({
         onChange={(event) => setWorkflowType(event.target.value)}
       >
         {Object.values(workflowTypes).map((type) => (
-          <option key={type} value={type}>
-            {type}
+          <option key={type.name} disabled={type.wip} value={type.name}>
+            {!type.wip ? type.name : `${type.name} - Coming Soon`}
           </option>
         ))}
       </SelectField>
