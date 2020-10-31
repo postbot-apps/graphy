@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   output: {
@@ -39,6 +40,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: './index.html',
+    }),
+    new Dotenv({
+      safe: true,
     }),
   ],
   devServer: {

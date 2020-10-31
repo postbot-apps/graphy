@@ -5,7 +5,7 @@ export interface AuthConfigInterface {
 }
 
 export const AuthConfig: AuthConfigInterface = {
-  AUTH0_DOMAIN: 'graphy-app.us.auth0.com',
-  AUTH0_CLIENT_ID: '9xs2YCenP15tL92M5pnkzLymw3aAAA3f',
-  AUTH0_AUDIENCE: 'https://graphy-app.us.auth0.com/api/v2/',
+  AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
+  AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+  AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE,
 };
