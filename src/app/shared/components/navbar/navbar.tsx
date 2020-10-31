@@ -1,7 +1,15 @@
 /**@jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { Button, BackButton, SegmentedControl, Dialog } from 'evergreen-ui';
-import { FunctionComponent, useState } from 'react';
+import {
+  Button,
+  BackButton,
+  Dialog,
+  TextInput,
+  IconButton,
+  LinkIcon,
+  toaster,
+} from 'evergreen-ui';
+import { FunctionComponent, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 const navbarStyles = css`
@@ -19,6 +27,9 @@ const navbarStyles = css`
       }
     }
   }
+  .navbar__actions {
+    display: flex;
+  }
 `;
 
 interface NavbarProps {
@@ -27,6 +38,7 @@ interface NavbarProps {
   onSave: () => void;
   onDiscard: () => void;
   onClear: () => void;
+  id: string;
 }
 
 export const Navbar: FunctionComponent<NavbarProps> = ({
@@ -35,20 +47,25 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
   onSave,
   onDiscard,
   onClear,
+  id,
 }: NavbarProps) => {
-  const [optionValue, setOptionValue] = useState('diagram');
   const [showClearModal, setShowClearModal] = useState(false);
+  const inputRef = useRef(null);
 
   const history = useHistory();
-
-  const options = [
-    { label: 'Diagram View', value: 'diagram' },
-    { label: 'Code View', value: 'code' },
-  ];
 
   const onClearData = () => {
     setShowClearModal(false);
     onClear();
+  };
+
+  const copyToClipboard = (e: any) => {
+    inputRef.current.select();
+    document.execCommand('copy');
+    e.target.focus();
+    toaster.success('Url copied to clipboard', {
+      duration: 1,
+    });
   };
 
   return (
@@ -60,15 +77,24 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
           <p className="navbar__title-text-description">{description}</p>
         </div>
       </div>
-      <div className="navbar__options">
+      {/* <div className="navbar__options">
         <SegmentedControl
           width={240}
           options={options}
           value={optionValue}
           onChange={(value) => setOptionValue(value as string)}
         />
-      </div>
+      </div> */}
       <div className="navbar__actions">
+        <TextInput
+          ref={inputRef}
+          width={200}
+          readOnly
+          value={`https://loalhost:8000/survey/${id}`}
+          name="text-input-name"
+          placeholder="Text input placeholder..."
+        />
+        <IconButton icon={LinkIcon} onClick={copyToClipboard} marginRight={30} />
         <Button
           intent="danger"
           appearance="primary"
@@ -80,7 +106,7 @@ export const Navbar: FunctionComponent<NavbarProps> = ({
         <Button marginRight={10} onClick={onDiscard}>
           Discard
         </Button>
-        <Button appearance="primary" marginLeft={10} onClick={onSave}>
+        <Button appearance="primary" onClick={onSave}>
           Save
         </Button>
       </div>
