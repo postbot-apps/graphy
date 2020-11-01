@@ -20,6 +20,10 @@ export const GET_WORKFLOW = gql`
         name
         parent
         width
+        option
+        placeholder
+        buttonText
+        link
       }
     }
   }
@@ -46,6 +50,10 @@ export const UPDATE_WORKFLOW_CLEAR = gql`
           name
           parent
           width
+          option
+          placeholder
+          buttonText
+          link
         }
       }
     }

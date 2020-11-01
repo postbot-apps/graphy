@@ -77,7 +77,7 @@ const SurveyPage: FunctionComponent<SurveyPageProps> = ({
         alignItems="center"
         justifyContent="center"
       >
-        <Text size={600}>Emty Workflow</Text>
+        <Text size={600}>Empty Workflow</Text>
       </Pane>
     );
   }
