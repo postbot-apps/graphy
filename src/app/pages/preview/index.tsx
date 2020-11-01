@@ -93,7 +93,7 @@ const PreviewPage: FunctionComponent<PreviewPageProps> = ({
     return <Loading />;
   }
 
-  if (workflowType && workflowType !== 'Survey') {
+  if (workflowType && workflowType !== 'Diagram') {
     return <NotFoundPage />;
   }
 

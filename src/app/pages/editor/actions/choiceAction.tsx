@@ -10,12 +10,16 @@ import {
 } from 'evergreen-ui';
 import { FunctionComponent, useState } from 'react';
 
-const cardStyles = css`
+const cardStyles = (showSideSheet: boolean) => css`
   display: inline-block;
-  padding: 10px 20px;
   background-color: #fff;
-  margin-top: 20px;
   box-shadow: 0px 4px 30px rgba(22, 33, 74, 0.05);
+  border: ${showSideSheet ? '2px solid #1070CA' : '2px solid white'};
+  width: 100%;
+  height: 100%;
+  .card__content {
+    padding: 10px;
+  }
 `;
 
 interface ChoiceActionProps {
@@ -29,7 +33,7 @@ const ChoiceAction: FunctionComponent<ChoiceActionProps> = ({
   const [showSideSheet, setShowSideSheet] = useState(false);
 
   return (
-    <Card css={cardStyles} onClick={() => setShowSideSheet(true)}>
+    <Card css={cardStyles(showSideSheet)} onClick={() => setShowSideSheet(true)}>
       <SideSheet
         isShown={showSideSheet}
         onCloseComplete={() => setShowSideSheet(false)}
