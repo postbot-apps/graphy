@@ -42,7 +42,9 @@ module.exports = {
       filename: './index.html',
       favicon: 'src/assets/images/logo.png',
     }),
-    new Dotenv(),
+    new Dotenv({
+      safe: true,
+    }),
   ],
   devServer: {
     historyApiFallback: true,
