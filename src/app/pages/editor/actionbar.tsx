@@ -70,11 +70,7 @@ interface ActionBarProps {}
 
 const tabs = ['Inputs', 'Flow', 'Display'];
 
-const actions = [
-  ['input', 'checkbox'],
-  ['options', 'optionsItem'],
-  ['text', 'link'],
-];
+const actions = [['input'], ['options', 'optionsItem'], ['text', 'link']];
 
 const ActionBar: FunctionComponent<ActionBarProps> = () => {
   const [isActionBarShown, setIsActionBarShown] = useState(true);
