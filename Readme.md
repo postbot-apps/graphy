@@ -2,6 +2,8 @@
 
 Graphy is an all in one workflow management tool backed with Slash graphql.
 
+![Graphy Workflows](https://github.com/postbot-apps/graphy/blob/main/screenshots/Workflow%20Editor%20-%20Graph.png)
+
 The app is deployed at [https://graphy.surge.sh](https://graphy.surge.sh)
 
 ## Quick Start
