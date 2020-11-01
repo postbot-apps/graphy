@@ -47,8 +47,8 @@ view graphy at [http://localhost:8080/](http://localhost:8080/)
 ### Demo user account
 
 ```
-  email: ashikmeerankutty@gmail.com
-  password: 
+  email: ashik.meerankutty@gmail.com
+  password: H6Pd672crXY8z4Q@
 ```
 
 ## Screenshots
