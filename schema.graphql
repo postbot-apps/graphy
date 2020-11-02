@@ -1,0 +1,68 @@
+type Workflow @withSubscription @auth() {
+    id: ID!
+    title: String! @search(by: [hash])
+    type: String
+    description: String
+    nodes: [Node!]
+    creator: User!
+    firstBlockPosition: Position
+    responses: [Response] @hasInverse(field: workflow)
+}
+
+type Position {
+    x: Float!
+    y: Float!
+}
+
+type Node @withSubscription @auth() 
+{
+    type: NodeType!
+    workflow: Workflow! @hasInverse(field: nodes)
+    title: String @search(by: [hash])
+    description: String
+    height: Int!
+    id: ID!
+    name: String!
+    parent: Int!
+    width: Int!
+    blockId: Int!
+    option: String
+    placeholder: String
+    buttonText: String
+    link: String
+}
+
+
+enum NodeType {
+    input
+    options
+    optionsItem
+    text
+    link
+    checkbox
+}
+
+type User @auth(
+    # add: {rule: "{$role: {eq: \"AddUser\"}}"},
+    delete: {rule: "{$role: {eq: \"ADMIN\"}}"},
+    update: {rule: "{$role: {eq: \"ADMIN\"}}"}
+){
+    id: ID!
+    email: String! @id @search(by: [hash])
+    name: String
+    workflows: [Workflow] @hasInverse(field: creator)
+}
+
+type Response @withSubscription @auth() {
+    id: ID!
+    workflow: Workflow!
+    date: DateTime!
+    data: [Data]
+}
+
+type Data {
+    id: Int!
+    option: String
+}
+
+# Dgraph.Authorization {"Header":"X-Auth-Token","Namespace":"https://dgraph.io/jwt/claims","Algo":"RS256","Audience":["9xs2YCenP15tL92M5pnkzLymw3aAAA3f","https://graphy-app.us.auth0.com/api/v2/"],"VerificationKey":"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxThn+absbSSWJn+x+fa9\nPFrMFA3fhWg6vk2LkQkjvMNhlynR5SOAQthFdGax4TFSiR8XNIm5GxASLAuP4Vxm\n/2C0Cc7lwaZYlvkK/Y6QbdL0YiJHIramtWkUqbpuUdzOwkNTq5E6pLjRA+EAEgdj\n5+goFqT3hSp0Qda9PO8ElPa9URJyDbZmjxCeW860x/V1GzedKbyE7uY3ohtRRLYT\nksxp8nlDgGjHrGP8uU+6tPQi3Lh9R3CvGQe9PIGPdJIkbTCJBC1LyTsrMf/dA/le\nkIybMAXSUISM0H/dDvxMUiAG6Tzizft4+84dtG9tEwMP3/2OXvQD0wZirILW3c3e\nvQIDAQAB\n-----END PUBLIC KEY-----"}
