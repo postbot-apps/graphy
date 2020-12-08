@@ -19,15 +19,14 @@ This app requires NodeJS. Before continuing, [download and install Node.js](http
   cp .env.example .env
 ```
 
-For demo you can use these environment variables: 
 ```
-SLASH_GRAPHQL_URL=https://graphy.us-west-2.aws.cloud.dgraph.io/graphql
+SLASH_GRAPHQL_URL=`Your slash graphql endpoint`
 
-AUTH0_DOMAIN=graphy-app.us.auth0.com
-AUTH0_CLIENT_ID=9xs2YCenP15tL92M5pnkzLymw3aAAA3f
-AUTH0_AUDIENCE=https://graphy-app.us.auth0.com/api/v2/
+AUTH0_DOMAIN=`Your Auth0 domain`
+AUTH0_CLIENT_ID=`Your Auth0 client ID`
+AUTH0_AUDIENCE=`Your Auth0 audience url`
 
-APP_ENDPOINT=https://graphy.surge.sh
+APP_ENDPOINT=`Your app endpoint`
 ```
 
 
