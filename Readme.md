@@ -20,13 +20,13 @@ This app requires NodeJS. Before continuing, [download and install Node.js](http
 ```
 
 ```
-SLASH_GRAPHQL_URL=`Your slash graphql endpoint`
+SLASH_GRAPHQL_URL=https://<app.region.aws>.cloud.dgraph.io/graphql
 
-AUTH0_DOMAIN=`Your Auth0 domain`
-AUTH0_CLIENT_ID=`Your Auth0 client ID`
-AUTH0_AUDIENCE=`Your Auth0 audience url`
+AUTH0_DOMAIN=<auth0 domain>
+AUTH0_CLIENT_ID=<auth0 client id>
+AUTH0_AUDIENCE=<auth0 audience>
 
-APP_ENDPOINT=`Your app endpoint`
+APP_ENDPOINT=http://loalhost:8000
 ```
 
 
